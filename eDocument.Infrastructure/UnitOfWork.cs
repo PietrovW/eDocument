@@ -1,17 +1,9 @@
-﻿// =============================
-// Email: info@ebenmonney.com
-// www.ebenmonney.com/templates
-// =============================
+﻿using DAL.Repositories;
+using eDocument.Infrastructure.Data;
+using eDocument.Infrastructure.Repositories;
+using eDocument.Infrastructure.Repositories.Interfaces;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.Repositories;
-using DAL.Repositories.Interfaces;
-
-namespace DAL
+namespace eDocument.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -20,14 +12,10 @@ namespace DAL
         ICustomerRepository _customers;
         IProductRepository _products;
         IOrdersRepository _orders;
-
-
-
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
         }
-
 
 
         public ICustomerRepository Customers
@@ -54,8 +42,6 @@ namespace DAL
             }
         }
 
-
-
         public IOrdersRepository Orders
         {
             get
@@ -66,9 +52,6 @@ namespace DAL
                 return _orders;
             }
         }
-
-
-
 
         public int SaveChanges()
         {

@@ -1,24 +1,12 @@
-﻿// =============================
-// Email: info@ebenmonney.com
-// www.ebenmonney.com/templates
-// =============================
+﻿using eDocument.Infrastructure.Repositories.Interfaces;
 
-using DAL.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DAL
+namespace eDocument.Infrastructure
 {
     public interface IUnitOfWork
     {
         ICustomerRepository Customers { get; }
         IProductRepository Products { get; }
         IOrdersRepository Orders { get; }
-
-
         int SaveChanges();
     }
 }

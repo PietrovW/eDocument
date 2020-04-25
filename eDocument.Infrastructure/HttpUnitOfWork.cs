@@ -1,7 +1,8 @@
-﻿using DAL.Core;
+﻿using eDocument.ApplicationCore.Constants;
+using eDocument.Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 
-namespace DAL
+namespace eDocument.Infrastructure
 {
     public class HttpUnitOfWork : UnitOfWork
     {

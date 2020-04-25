@@ -1,8 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="EmailSender\Templates\PlainTextTestEmail.template" />
+    <None Remove="EmailSender\Templates\TestEmail.template" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="EmailSender\Templates\PlainTextTestEmail.template">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="EmailSender\Templates\TestEmail.template">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\eDocument.ApplicationCore\eDocument.ApplicationCore.csproj" />
@@ -11,6 +25,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Config\" />
   </ItemGroup>
 
 </Project>

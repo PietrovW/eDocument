@@ -2,6 +2,7 @@
 using eDocument.ApplicationCore.Enums;
 using eDocument.ApplicationCore.Interfaces;
 using eDocument.ApplicationCore.Models;
+using eDocument.ApplicationCore.Permissions;
 using eDocument.Infrastructure.Data.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
