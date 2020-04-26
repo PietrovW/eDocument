@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using DAL.Core;
+﻿using eDocument.ApplicationCore.Constants;
 using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
+using System;
+using System.Collections.Generic;
 
-namespace eDocument
+namespace eDocument.Configs
 {
     public class IdentityServerConfig
     {
@@ -86,3 +87,4 @@ namespace eDocument
         }
     }
 }
+

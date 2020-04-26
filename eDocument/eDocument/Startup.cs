@@ -1,8 +1,4 @@
 using AutoMapper;
-using DAL;
-using DAL.Core;
-using DAL.Core.Interfaces;
-using DAL.Models;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -19,7 +15,20 @@ using eDocument.Authorization;
 using eDocument.Helpers;
 using System;
 using System.Collections.Generic;
-using AppPermissions = DAL.Core.ApplicationPermissions;
+using Microsoft.AspNetCore.Mvc;
+using eDocument.Filter;
+using eDocument.Infrastructure;
+using eDocument.ApplicationCore.Models;
+using eDocument.Infrastructure.Data;
+using eDocument.ApplicationCore.Constants;
+using eDocument.Infrastructure.EmailSender.Base;
+using eDocument.Infrastructure.EmailSender;
+using eDocument.ApplicationCore;
+using eDocument.ApplicationCore.Interfaces;
+using eDocument.Infrastructure.Data.Base;
+using eDocument.ApplicationCore.Permissions;
+using eDocument.Extensions;
+using eDocument.Configs;
 
 namespace eDocument
 {
@@ -38,7 +47,7 @@ namespace eDocument
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(@"Data Source=CustomerDB.db;", b => b.MigrationsAssembly("eDocument")));
+                options.UseSqlite(@"Data Source=eDocumentDB.db;", b => b.MigrationsAssembly("eDocument")));
 
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -68,6 +77,7 @@ namespace eDocument
                 // See http://docs.identityserver.io/en/release/topics/crypto.html#refcrypto for more information.
                 .AddDeveloperSigningCredential()
                 .AddInMemoryPersistedGrants()
+                
                 // To configure IdentityServer to use EntityFramework (EF) as the storage mechanism for configuration data (rather than using the in-memory implementations),
                 // see https://identityserver4.readthedocs.io/en/release/quickstarts/8_entity_framework.html
                 .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
@@ -90,12 +100,12 @@ namespace eDocument
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy, policy => policy.RequireClaim(ClaimConstants.Permission, AppPermissions.ViewUsers));
-                options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy, policy => policy.RequireClaim(ClaimConstants.Permission, AppPermissions.ManageUsers));
+                options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy, policy => policy.RequireClaim(ClaimConstants.Permission, ApplicationPermissions.ViewUsers));
+                options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy, policy => policy.RequireClaim(ClaimConstants.Permission, ApplicationPermissions.ManageUsers));
 
-                options.AddPolicy(Authorization.Policies.ViewAllRolesPolicy, policy => policy.RequireClaim(ClaimConstants.Permission, AppPermissions.ViewRoles));
+                options.AddPolicy(Authorization.Policies.ViewAllRolesPolicy, policy => policy.RequireClaim(ClaimConstants.Permission, ApplicationPermissions.ViewRoles));
                 options.AddPolicy(Authorization.Policies.ViewRoleByRoleNamePolicy, policy => policy.Requirements.Add(new ViewRoleAuthorizationRequirement()));
-                options.AddPolicy(Authorization.Policies.ManageAllRolesPolicy, policy => policy.RequireClaim(ClaimConstants.Permission, AppPermissions.ManageRoles));
+                options.AddPolicy(Authorization.Policies.ManageAllRolesPolicy, policy => policy.RequireClaim(ClaimConstants.Permission, ApplicationPermissions.ManageRoles));
 
                 options.AddPolicy(Authorization.Policies.AssignAllowedRolesPolicy, policy => policy.Requirements.Add(new AssignRolesAuthorizationRequirement()));
             });
@@ -103,33 +113,38 @@ namespace eDocument
 
             services.AddCors();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = IdentityServerConfig.ApiFriendlyName, Version = "v1" });
-                c.OperationFilter<AuthorizeCheckOperationFilter>();
-                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new OpenApiOAuthFlows
-                    {
-                        Password = new OpenApiOAuthFlow
-                        {
-                            TokenUrl = new Uri("/connect/token", UriKind.Relative),
-                            Scopes = new Dictionary<string, string>()
-                            {
-                                { IdentityServerConfig.ApiName, IdentityServerConfig.ApiFriendlyName }
-                            }
-                        }
-                    }
-                });
-            });
+            //services.AddAppSwaggerGen();
+
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = IdentityServerConfig.ApiFriendlyName, Version = "v1" });
+            //    c.OperationFilter<AuthorizeCheckOperationFilter>();
+            //    c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+            //    {
+            //        Type = SecuritySchemeType.OAuth2,
+            //        Flows = new OpenApiOAuthFlows
+            //        {
+            //            Password = new OpenApiOAuthFlow
+            //            {
+            //                TokenUrl = new Uri("/connect/token", UriKind.Relative),
+            //                Scopes = new Dictionary<string, string>()
+            //                {
+            //                    { IdentityServerConfig.ApiName, IdentityServerConfig.ApiFriendlyName }
+            //                }
+            //            }
+            //        }
+            //    });
+            //});
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -159,7 +174,6 @@ namespace eDocument
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             Utilities.ConfigureLogger(loggerFactory);
-            EmailTemplates.Initialize(env);
 
             if (env.IsDevelopment())
             {
@@ -186,22 +200,25 @@ namespace eDocument
 
             app.UseIdentityServer();
             app.UseAuthorization();
-
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.DocumentTitle = "Swagger UI - eDocument";
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{IdentityServerConfig.ApiFriendlyName} V1");
-                c.OAuthClientId(IdentityServerConfig.SwaggerClientID);
-                c.OAuthClientSecret("no_password"); //Leaving it blank doesn't work
-            });
+           // app.UseAppSwagger();
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.DocumentTitle = "Swagger UI - eDocument";
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{IdentityServerConfig.ApiFriendlyName} V1");
+            //    c.OAuthClientId(IdentityServerConfig.SwaggerClientID);
+            //    c.OAuthClientSecret("no_password"); //Leaving it blank doesn't work
+            //});
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+
             });
+
+           // app.SeedData();
 
             app.UseSpa(spa =>
             {
@@ -215,6 +232,7 @@ namespace eDocument
                     //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // Use this instead to use the angular cli server
                 }
             });
+
         }
     }
 }

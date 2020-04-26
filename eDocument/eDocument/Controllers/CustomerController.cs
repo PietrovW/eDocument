@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DAL;
 using eDocument.ViewModels;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
-using eDocument.Helpers;
+using eDocument.Infrastructure;
+using eDocument.Infrastructure.EmailSender;
+using eDocument.Infrastructure.EmailSender.Base;
 
 namespace eDocument.Controllers
 {

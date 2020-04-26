@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace eDocument.ApplicationCore.Models
 {
-    public class ApplicationRole : IdentityRole, IAuditableEntity
+    public class ApplicationRole : IdentityRole, IBaseEntity
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationRole"/>.

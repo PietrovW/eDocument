@@ -2,10 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using eDocument.ApplicationCore.Models.Interfaces;
 
-namespace eDocument.ApplicationCore.Models
+namespace eDocument.ApplicationCore.Models.Base
 {
-    public class AuditableEntity : IAuditableEntity
+    public abstract class BaseEntity : IBaseEntity
     {
+
         [MaxLength(256)]
         public string CreatedBy { get; set; }
         [MaxLength(256)]

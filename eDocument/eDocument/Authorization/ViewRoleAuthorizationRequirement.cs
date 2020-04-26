@@ -1,9 +1,6 @@
 ﻿// =============================
-// Email: info@ebenmonney.com
-// www.ebenmonney.com/templates
-// =============================
-
-using DAL.Core;
+using eDocument.ApplicationCore.Constants;
+using eDocument.ApplicationCore.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.Text;

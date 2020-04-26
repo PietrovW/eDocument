@@ -6,6 +6,9 @@ using System.Threading;
 using eDocument.ApplicationCore.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using eDocument.ApplicationCore.Models.Interfaces;
+using DocumentTracking.ApplicationCore.Entities;
+using Microsoft.AspNetCore.Identity;
+using System.Reflection;
 
 namespace eDocument.Infrastructure.Data
 {
@@ -17,52 +20,47 @@ namespace eDocument.Infrastructure.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
 
+        public DbSet<Invoice> Invoices { get; set; }
+
+        public DbSet<InvoiceItem> InvoiceItems { get; set; }
+
+        public DbSet<Metadane> Metadanes { get; set; }
+
+        public DbSet<Process> Process { get; set; }
         public ApplicationDbContext(DbContextOptions options) : base(options)
         { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            const string priceDecimalType = "decimal(18,2)";
+            builder.Entity<IdentityUserClaim<string>>(b =>
+            {
+                b.ToTable("UserClaims");
+            });
 
-            builder.Entity<ApplicationUser>().HasMany(u => u.Claims).WithOne().HasForeignKey(c => c.UserId).IsRequired().OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<ApplicationUser>().HasMany(u => u.Roles).WithOne().HasForeignKey(r => r.UserId).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<IdentityUserLogin<string>>(b =>
+            {
+                b.ToTable("UserLogins");
+            });
 
-            builder.Entity<ApplicationRole>().HasMany(r => r.Claims).WithOne().HasForeignKey(c => c.RoleId).IsRequired().OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<ApplicationRole>().HasMany(r => r.Users).WithOne().HasForeignKey(r => r.RoleId).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<IdentityUserToken<string>>(b =>
+            {
+                b.ToTable("UserTokens");
+            });
 
-            builder.Entity<Customer>().Property(c => c.Name).IsRequired().HasMaxLength(100);
-            builder.Entity<Customer>().HasIndex(c => c.Name);
-            builder.Entity<Customer>().Property(c => c.Email).HasMaxLength(100);
-            builder.Entity<Customer>().Property(c => c.PhoneNumber).IsUnicode(false).HasMaxLength(30);
-            builder.Entity<Customer>().Property(c => c.City).HasMaxLength(50);
-            builder.Entity<Customer>().ToTable($"App{nameof(this.Customers)}");
+            builder.Entity<IdentityRoleClaim<string>>(b =>
+            {
+                b.ToTable("RoleClaims");
+            });
 
-            builder.Entity<ProductCategory>().Property(p => p.Name).IsRequired().HasMaxLength(100);
-            builder.Entity<ProductCategory>().Property(p => p.Description).HasMaxLength(500);
-            builder.Entity<ProductCategory>().ToTable($"App{nameof(this.ProductCategories)}");
-
-            builder.Entity<Product>().Property(p => p.Name).IsRequired().HasMaxLength(100);
-            builder.Entity<Product>().HasIndex(p => p.Name);
-            builder.Entity<Product>().Property(p => p.Description).HasMaxLength(500);
-            builder.Entity<Product>().Property(p => p.Icon).IsUnicode(false).HasMaxLength(256);
-            builder.Entity<Product>().HasOne(p => p.Parent).WithMany(p => p.Children).OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<Product>().ToTable($"App{nameof(this.Products)}");
-            builder.Entity<Product>().Property(p => p.BuyingPrice).HasColumnType(priceDecimalType);
-            builder.Entity<Product>().Property(p => p.SellingPrice).HasColumnType(priceDecimalType);
-
-            builder.Entity<Order>().Property(o => o.Comments).HasMaxLength(500);
-            builder.Entity<Order>().ToTable($"App{nameof(this.Orders)}");
-            builder.Entity<Order>().Property(p => p.Discount).HasColumnType(priceDecimalType);
-
-            builder.Entity<OrderDetail>().ToTable($"App{nameof(this.OrderDetails)}");
-            builder.Entity<OrderDetail>().Property(p => p.UnitPrice).HasColumnType(priceDecimalType);
-            builder.Entity<OrderDetail>().Property(p => p.Discount).HasColumnType(priceDecimalType);
+            builder.Entity<IdentityUserRole<string>>(b =>
+            {
+                b.ToTable("UserRoles");
+            });
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
-
-
-
 
         public override int SaveChanges()
         {
@@ -95,12 +93,12 @@ namespace eDocument.Infrastructure.Data
         private void UpdateAuditEntities()
         {
             var modifiedEntries = ChangeTracker.Entries()
-                .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+                .Where(x => x.Entity is IBaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
 
             foreach (var entry in modifiedEntries)
             {
-                var entity = (IAuditableEntity)entry.Entity;
+                var entity = (IBaseEntity)entry.Entity;
                 DateTime now = DateTime.UtcNow;
 
                 if (entry.State == EntityState.Added)

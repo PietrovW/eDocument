@@ -5,7 +5,7 @@ using eDocument.ApplicationCore.Models.Interfaces;
 
 namespace eDocument.ApplicationCore.Models
 {
-    public class ApplicationUser : IdentityUser, IAuditableEntity
+    public class ApplicationUser : IdentityUser, IBaseEntity
     {
         public virtual string FriendlyName
         {

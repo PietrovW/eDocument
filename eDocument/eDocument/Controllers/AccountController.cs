@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using eDocument.ViewModels;
 using AutoMapper;
-using DAL.Models;
-using DAL.Core.Interfaces;
 using eDocument.Authorization;
 using eDocument.Helpers;
-using Microsoft.AspNetCore.JsonPatch;
-using DAL.Core;
 using IdentityServer4.AccessTokenValidation;
+using eDocument.ApplicationCore.Interfaces;
+using eDocument.ApplicationCore.Models;
+using eDocument.ApplicationCore.Permissions;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace eDocument.Controllers
 {

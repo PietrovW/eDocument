@@ -1,14 +1,12 @@
-﻿using System;
+﻿using eDocument.ApplicationCore.Models.Base;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eDocument.ApplicationCore.Models
 {
-    public class Order : AuditableEntity
+    public class Order : BaseEntity
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public decimal Discount { get; set; }
         public string Comments { get; set; }
         public DateTime DateCreated { get; set; }

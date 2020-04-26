@@ -1,8 +1,10 @@
-﻿namespace eDocument.ApplicationCore.Models
+﻿using eDocument.ApplicationCore.Models.Base;
+
+namespace eDocument.ApplicationCore.Models
 {
-    public class OrderDetail : AuditableEntity
+    public class OrderDetail : BaseEntity
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public decimal UnitPrice { get; set; }
         public int Quantity { get; set; }
         public decimal Discount { get; set; }

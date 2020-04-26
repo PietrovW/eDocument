@@ -1,11 +1,9 @@
-﻿using DocumentTracking.ApplicationCore.Entities;
+﻿using eDocument.ApplicationCore.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DocumentTracking.Infrastructure.Data.Config
+namespace eDocument.Infrastructure.Data.Config
 {
     public class AttachmentConfiguration : IEntityTypeConfiguration<Attachment>
     {

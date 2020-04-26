@@ -1,6 +1,6 @@
-﻿using DAL.Core;
+﻿using eDocument.ApplicationCore.Constants;
+using eDocument.ApplicationCore.Permissions;
 using Microsoft.AspNetCore.Authorization;
-using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;

@@ -1,19 +1,11 @@
-// =============================
-// Email: info@ebenmonney.com
-// www.ebenmonney.com/templates
-// =============================
-
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DAL;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using eDocument.Helpers;
+using eDocument.Infrastructure.Data.Base;
+using eDocument.ApplicationCore.Constants;
 
 namespace eDocument
 {
@@ -32,14 +24,14 @@ namespace eDocument
                 try
                 {
                     var databaseInitializer = services.GetRequiredService<IDatabaseInitializer>();
-                   // databaseInitializer.SeedAsync().Wait();
+                   databaseInitializer.SeedAsync().Wait();
                 }
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogCritical(LoggingEvents.INIT_DATABASE, ex, LoggingEvents.INIT_DATABASE.Name);
+                    logger.LogCritical(LoggingConstants.INIT_DATABASE, ex, LoggingConstants.INIT_DATABASE.Name);
 
-                    throw new Exception(LoggingEvents.INIT_DATABASE.Name, ex);
+                    throw new Exception(LoggingConstants.INIT_DATABASE.Name, ex);
                 }
             }
 

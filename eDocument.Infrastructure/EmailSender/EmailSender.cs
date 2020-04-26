@@ -7,18 +7,20 @@ using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using Microsoft.Extensions.Options;
 using eDocument.Infrastructure.EmailSender.Base;
+using eDocument.Infrastructure.Options;
+using eDocument.ApplicationCore.Constants;
 
 namespace eDocument.Infrastructure.EmailSender
 {
     public class EmailSender : IEmailSender
     {
-        readonly SmtpConfig _config;
+        readonly SmtpOptions _config;
         readonly ILogger _logger;
 
 
-        public EmailSender(IOptions<AppSettings> config, ILogger<EmailSender> logger)
+        public EmailSender(IOptions<SmtpOptions> config, ILogger<EmailSender> logger)
         {
-            _config = config.Value.SmtpConfig;
+            _config = config.Value;
             _logger = logger;
         }
 
@@ -28,7 +30,7 @@ namespace eDocument.Infrastructure.EmailSender
             string recepientEmail,
             string subject,
             string body,
-            SmtpConfig config = null,
+            SmtpOptions config = null,
             bool isHtml = true)
         {
             var from = new MailboxAddress(_config.Name, _config.EmailAddress);
@@ -46,7 +48,7 @@ namespace eDocument.Infrastructure.EmailSender
             string recepientEmail,
             string subject,
             string body,
-            SmtpConfig config = null,
+            SmtpOptions config = null,
             bool isHtml = true)
         {
             var from = new MailboxAddress(senderName, senderEmail);
@@ -62,7 +64,7 @@ namespace eDocument.Infrastructure.EmailSender
             MailboxAddress[] recepients,
             string subject,
             string body,
-            SmtpConfig config = null,
+            SmtpOptions config = null,
             bool isHtml = true)
         {
             MimeMessage message = new MimeMessage();
@@ -96,7 +98,7 @@ namespace eDocument.Infrastructure.EmailSender
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.SEND_EMAIL, ex, "An error occurred whilst sending email");
+                _logger.LogError(LoggingConstants.SEND_EMAIL, ex, "An error occurred whilst sending email");
                 return (false, ex.Message);
             }
         }

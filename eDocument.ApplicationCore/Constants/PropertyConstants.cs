@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace eDocument.ApplicationCore.Constants
+﻿namespace eDocument.ApplicationCore.Constants
 {
     public static class PropertyConstants
     {

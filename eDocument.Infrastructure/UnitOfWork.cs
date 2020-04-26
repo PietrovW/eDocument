@@ -1,5 +1,4 @@
-﻿using DAL.Repositories;
-using eDocument.Infrastructure.Data;
+﻿using eDocument.Infrastructure.Data;
 using eDocument.Infrastructure.Repositories;
 using eDocument.Infrastructure.Repositories.Interfaces;
 

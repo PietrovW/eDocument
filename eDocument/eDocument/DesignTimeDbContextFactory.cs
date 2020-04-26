@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using DAL;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
+using eDocument.Infrastructure.Data;
 
 namespace eDocument
 {
@@ -22,7 +17,7 @@ namespace eDocument
                 .Build();
 
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            builder.UseSqlite(@"Data Source=CustomerDB.db;", b => b.MigrationsAssembly("eDocument"));
+            builder.UseSqlite(@"Data Source=eDocumentDB.db;", b => b.MigrationsAssembly("eDocument"));
 
             return new ApplicationDbContext(builder.Options);
         }

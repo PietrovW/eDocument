@@ -1,12 +1,9 @@
-﻿using IdentityModel;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace eDocument.Infrastructure.Loggers
 {
@@ -53,7 +50,7 @@ namespace eDocument.Infrastructure.Loggers
 
         public static string GetUserId(ClaimsPrincipal user)
         {
-            return user.FindFirst(JwtClaimTypes.Subject)?.Value?.Trim();
+            return user.FindFirst(IdentityModel.JwtClaimTypes.Subject)?.Value?.Trim();
         }
 
 
@@ -61,7 +58,7 @@ namespace eDocument.Infrastructure.Loggers
         public static string[] GetRoles(ClaimsPrincipal identity)
         {
             return identity.Claims
-                .Where(c => c.Type == JwtClaimTypes.Role)
+                .Where(c => c.Type == IdentityModel.JwtClaimTypes.Role)
                 .Select(c => c.Value)
                 .ToArray();
         }

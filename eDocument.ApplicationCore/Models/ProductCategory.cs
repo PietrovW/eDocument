@@ -1,12 +1,12 @@
-﻿using System;
+﻿using eDocument.ApplicationCore.Models.Base;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace eDocument.ApplicationCore.Models
 {
-    public class ProductCategory : AuditableEntity
+    public class ProductCategory : BaseEntity
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Icon { get; set; }

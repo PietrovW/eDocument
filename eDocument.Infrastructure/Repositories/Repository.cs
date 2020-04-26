@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace eDocument.Infrastructure.Repositories
 {
@@ -18,14 +19,14 @@ namespace eDocument.Infrastructure.Repositories
             _entities = context.Set<TEntity>();
         }
 
-        public virtual void Add(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
-            _entities.Add(entity);
+           await _entities.AddAsync(entity);
         }
 
-        public virtual void AddRange(IEnumerable<TEntity> entities)
+        public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities)
         {
-            _entities.AddRange(entities);
+            await _entities.AddRangeAsync(entities);
         }
 
 
@@ -36,7 +37,7 @@ namespace eDocument.Infrastructure.Repositories
 
         public virtual void UpdateRange(IEnumerable<TEntity> entities)
         {
-            _entities.UpdateRange(entities);
+             _entities.UpdateRange(entities);
         }
 
 
@@ -52,9 +53,9 @@ namespace eDocument.Infrastructure.Repositories
         }
 
 
-        public virtual int Count()
+        public virtual long Count()
         {
-            return _entities.Count();
+            return _entities.LongCount();
         }
 
 
@@ -68,14 +69,14 @@ namespace eDocument.Infrastructure.Repositories
             return _entities.SingleOrDefault(predicate);
         }
 
-        public virtual TEntity Get(int id)
+        public virtual async Task<TEntity> GetAsync(long id)
         {
-            return _entities.Find(id);
+            return await _entities.FindAsync(id);
         }
 
-        public virtual IEnumerable<TEntity> GetAll()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return _entities.ToList();
+            return await _entities.ToListAsync();
         }
     }
 }

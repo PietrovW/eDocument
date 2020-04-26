@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace eDocument.ApplicationCore.Models.Interfaces
 {
-    public interface IAuditableEntity
+    public interface IBaseEntity
     {
         string CreatedBy { get; set; }
         string UpdatedBy { get; set; }

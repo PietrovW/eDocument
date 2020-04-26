@@ -1,9 +1,10 @@
 ﻿using DocumentTracking.ApplicationCore.Entities;
+using eDocument.ApplicationCore.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace DocumentTracking.Infrastructure.Data.Config
+namespace eDocument.Infrastructure.Data.Config
 {
     public class ProcessConfiguration : IEntityTypeConfiguration<Process>
     {

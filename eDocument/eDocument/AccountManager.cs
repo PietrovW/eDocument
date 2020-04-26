@@ -1,6 +1,9 @@
-﻿using eDocument.ApplicationCore.Interfaces;
+﻿using eDocument.ApplicationCore.Constants;
+using eDocument.ApplicationCore.Interfaces;
 using eDocument.ApplicationCore.Models;
+using eDocument.ApplicationCore.Permissions;
 using eDocument.Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +12,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace eDocument.ApplicationCore
+namespace eDocument
 {
     public class AccountManager : IAccountManager
     {

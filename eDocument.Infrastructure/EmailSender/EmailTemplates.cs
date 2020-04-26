@@ -1,28 +1,17 @@
 ﻿using System;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using System.Reflection;
 
 namespace eDocument.Infrastructure.EmailSender
 {
     public static class EmailTemplates
     {
-        static IWebHostEnvironment _hostingEnvironment;
         static string testEmailTemplate;
         static string plainTextTestEmailTemplate;
-
-
-        public static void Initialize(IWebHostEnvironment hostingEnvironment)
-        {
-            _hostingEnvironment = hostingEnvironment;
-        }
-
-
         public static string GetTestEmail(string recepientName, DateTime testDate)
         {
             if (testEmailTemplate == null)
-                testEmailTemplate = ReadPhysicalFile("Helpers/Templates/TestEmail.template");
-
+                testEmailTemplate = ReadPhysicalFile("TestEmail.template");
 
             string emailMessage = testEmailTemplate
                 .Replace("{user}", recepientName)
@@ -31,13 +20,10 @@ namespace eDocument.Infrastructure.EmailSender
             return emailMessage;
         }
 
-
-
         public static string GetPlainTextTestEmail(DateTime date)
         {
             if (plainTextTestEmailTemplate == null)
-                plainTextTestEmailTemplate = ReadPhysicalFile("Helpers/Templates/PlainTextTestEmail.template");
-
+                plainTextTestEmailTemplate = ReadPhysicalFile("PlainTextTestEmail.template");
 
             string emailMessage = plainTextTestEmailTemplate
                 .Replace("{date}", date.ToString());
@@ -46,24 +32,13 @@ namespace eDocument.Infrastructure.EmailSender
         }
 
 
-
-
-        private static string ReadPhysicalFile(string path)
+        private static string ReadPhysicalFile(string resourceName)
         {
-            if (_hostingEnvironment == null)
-                throw new InvalidOperationException($"{nameof(EmailTemplates)} is not initialized");
-
-            IFileInfo fileInfo = _hostingEnvironment.ContentRootFileProvider.GetFileInfo(path);
-
-            if (!fileInfo.Exists)
-                throw new FileNotFoundException($"Template file located at \"{path}\" was not found");
-
-            using (var fs = fileInfo.CreateReadStream())
+            var assembly = Assembly.GetExecutingAssembly();
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
             {
-                using (var sr = new StreamReader(fs))
-                {
-                    return sr.ReadToEnd();
-                }
+                return reader.ReadToEnd();
             }
         }
     }

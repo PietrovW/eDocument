@@ -1,10 +1,11 @@
-﻿using DAL.Core;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using eDocument.Helpers;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using eDocument.ApplicationCore.Constants;
+using eDocument.ApplicationCore.Permissions;
 
 namespace eDocument.Authorization
 {
