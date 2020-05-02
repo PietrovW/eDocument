@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace eDocument.Extensions
 {
-    public static class DataSeederExtension
+    public static class DataSeederExtensions
     {
         public static void SeedData(this IApplicationBuilder app)
         {

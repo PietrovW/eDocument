@@ -9,29 +9,26 @@ using eDocument.ViewModels;
 using AutoMapper;
 using eDocument.Authorization;
 using eDocument.Helpers;
-using IdentityServer4.AccessTokenValidation;
 using eDocument.ApplicationCore.Interfaces;
 using eDocument.ApplicationCore.Models;
 using eDocument.ApplicationCore.Permissions;
 using Microsoft.AspNetCore.JsonPatch;
+using eDocument.Controllers.Base;
+using eDocument.ViewModels.User;
 
 namespace eDocument.Controllers
 {
-    [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme)]
-    [Route("api/[controller]")]
-    public class AccountController : ControllerBase
+    public class AccountController : BaseApiController
     {
-        private readonly IMapper _mapper;
-        private readonly IAccountManager _accountManager;
+        private readonly IAccountManagerService _accountManager;
         private readonly IAuthorizationService _authorizationService;
         private readonly ILogger<AccountController> _logger;
         private const string GetUserByIdActionName = "GetUserById";
         private const string GetRoleByIdActionName = "GetRoleById";
 
-        public AccountController(IMapper mapper, IAccountManager accountManager, IAuthorizationService authorizationService,
-            ILogger<AccountController> logger)
+        public AccountController(IMapper mapper, IAccountManagerService accountManager, IAuthorizationService authorizationService,
+            ILogger<AccountController> logger):base(mapper)
         {
-            _mapper = mapper;
             _accountManager = accountManager;
             _authorizationService = authorizationService;
             _logger = logger;
@@ -103,7 +100,7 @@ namespace eDocument.Controllers
 
             foreach (var item in usersAndRoles)
             {
-                var userVM = _mapper.Map<UserViewModel>(item.User);
+                var userVM = mapper.Map<UserViewModel>(item.User);
                 userVM.Roles = item.Roles;
 
                 usersVM.Add(userVM);
@@ -174,7 +171,7 @@ namespace eDocument.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    _mapper.Map<UserEditViewModel, ApplicationUser>(user, appUser);
+                    mapper.Map<UserEditViewModel, ApplicationUser>(user, appUser);
 
                     var result = await _accountManager.UpdateUserAsync(appUser, user.Roles);
                     if (result.Succeeded)
@@ -231,12 +228,12 @@ namespace eDocument.Controllers
                     return NotFound(id);
 
 
-                UserPatchViewModel userPVM = _mapper.Map<UserPatchViewModel>(appUser);
+                UserPatchViewModel userPVM = mapper.Map<UserPatchViewModel>(appUser);
                 patch.ApplyTo(userPVM, (e) => AddError(e.ErrorMessage));
 
                 if (ModelState.IsValid)
                 {
-                    _mapper.Map<UserPatchViewModel, ApplicationUser>(userPVM, appUser);
+                    mapper.Map<UserPatchViewModel, ApplicationUser>(userPVM, appUser);
 
                     var result = await _accountManager.UpdateUserAsync(appUser);
                     if (result.Succeeded)
@@ -268,7 +265,7 @@ namespace eDocument.Controllers
                     return BadRequest($"{nameof(user)} cannot be null");
 
 
-                ApplicationUser appUser = _mapper.Map<ApplicationUser>(user);
+                ApplicationUser appUser = mapper.Map<ApplicationUser>(user);
 
                 var result = await _accountManager.CreateUserAsync(appUser, user.Roles, user.NewPassword);
                 if (result.Succeeded)
@@ -364,9 +361,6 @@ namespace eDocument.Controllers
         }
 
 
-
-
-
         [HttpGet("roles/{id}", Name = GetRoleByIdActionName)]
         [ProducesResponseType(200, Type = typeof(RoleViewModel))]
         [ProducesResponseType(403)]
@@ -419,7 +413,7 @@ namespace eDocument.Controllers
         public async Task<IActionResult> GetRoles(int pageNumber, int pageSize)
         {
             var roles = await _accountManager.GetRolesLoadRelatedAsync(pageNumber, pageSize);
-            return Ok(_mapper.Map<List<RoleViewModel>>(roles));
+            return Ok(mapper.Map<List<RoleViewModel>>(roles));
         }
 
 
@@ -446,7 +440,7 @@ namespace eDocument.Controllers
                     return NotFound(id);
 
 
-                _mapper.Map<RoleViewModel, ApplicationRole>(role, appRole);
+                mapper.Map<RoleViewModel, ApplicationRole>(role, appRole);
 
                 var result = await _accountManager.UpdateRoleAsync(appRole, role.Permissions?.Select(p => p.Value).ToArray());
                 if (result.Succeeded)
@@ -472,7 +466,7 @@ namespace eDocument.Controllers
                     return BadRequest($"{nameof(role)} cannot be null");
 
 
-                ApplicationRole appRole = _mapper.Map<ApplicationRole>(role);
+                ApplicationRole appRole = mapper.Map<ApplicationRole>(role);
 
                 var result = await _accountManager.CreateRoleAsync(appRole, role.Permissions?.Select(p => p.Value).ToArray());
                 if (result.Succeeded)
@@ -520,7 +514,7 @@ namespace eDocument.Controllers
         [ProducesResponseType(200, Type = typeof(List<PermissionViewModel>))]
         public IActionResult GetAllPermissions()
         {
-            return Ok(_mapper.Map<List<PermissionViewModel>>(ApplicationPermissions.AllPermissions));
+            return Ok(mapper.Map<List<PermissionViewModel>>(ApplicationPermissions.AllPermissions));
         }
 
 
@@ -531,7 +525,7 @@ namespace eDocument.Controllers
             if (userAndRoles == null)
                 return null;
 
-            var userVM = _mapper.Map<UserViewModel>(userAndRoles.Value.User);
+            var userVM = mapper.Map<UserViewModel>(userAndRoles.Value.User);
             userVM.Roles = userAndRoles.Value.Roles;
 
             return userVM;
@@ -542,9 +536,7 @@ namespace eDocument.Controllers
         {
             var role = await _accountManager.GetRoleLoadRelatedAsync(roleName);
             if (role != null)
-                return _mapper.Map<RoleViewModel>(role);
-
-
+                return mapper.Map<RoleViewModel>(role);
             return null;
         }
 

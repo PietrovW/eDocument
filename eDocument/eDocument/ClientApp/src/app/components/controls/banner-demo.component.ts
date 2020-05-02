@@ -1,11 +1,4 @@
-// =============================
-// Email: info@ebenmonney.com
-// www.ebenmonney.com/templates
-// =============================
-
 import { Component } from '@angular/core';
-
-
 
 @Component({
     selector: 'banner-demo',

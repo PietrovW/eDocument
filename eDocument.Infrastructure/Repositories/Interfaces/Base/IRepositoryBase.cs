@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace eDocument.Infrastructure.Repositories.Interfaces
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepositoryBase<TEntity> where TEntity : class
     {
         Task AddAsync(TEntity entity);
         Task AddRangeAsync(IEnumerable<TEntity> entities);

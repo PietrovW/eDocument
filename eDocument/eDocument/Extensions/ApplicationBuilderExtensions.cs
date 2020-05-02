@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using eDocument.Configs;
+using eDocument.Filter;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace eDocument.Extensions
 {
@@ -20,14 +20,17 @@ namespace eDocument.Extensions
                 c.ShowExtensions();
                 c.EnableValidator();
                 c.EnableDeepLinking();
-                c.DisplayOperationId();
-                c.DisplayRequestDuration();
-                c.RoutePrefix = string.Empty;
+                ////  c.DisplayOperationId();
+                //  c.DisplayRequestDuration();
+                //  c.RoutePrefix = string.Empty;
                 c.DefaultModelExpandDepth(2);
                 c.DefaultModelsExpandDepth(-1);
                 c.DocExpansion(DocExpansion.None);
                 c.DefaultModelRendering(ModelRendering.Model);
-                c.SwaggerEndpoint($"/swagger/swagger.json", "Version 1.0");
+                //  c.SwaggerEndpoint($"/swagger/swagger.json", "Version 1.0");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{IdentityServerConfig.ApiFriendlyName} V1");
+                c.OAuthClientId(IdentityServerConfig.SwaggerClientID);
+                c.OAuthClientSecret("no_password"); //Leaving it blank doesn't work
             });
 
             return applicationBuilder;
@@ -44,35 +47,50 @@ namespace eDocument.Extensions
                     Description = "A sample RESTFul ASP.NET Core 3 API"
 
                 });
-
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                c.OperationFilter<AuthorizeCheckOperationFilter>();
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
-
-                var security = new OpenApiSecurityRequirement()
-                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
                     {
-                        new OpenApiSecurityScheme
+                        Password = new OpenApiOAuthFlow
                         {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            },
-                            Scheme = "oauth2",
-                            Name = "Bearer",
-                            In = ParameterLocation.Header,
-                        },
-                        new List<string>()
-
+                            TokenUrl = new Uri("/connect/token", UriKind.Relative),
+                            Scopes = new Dictionary<string, string>()
+                                {
+                                    { IdentityServerConfig.ApiName, IdentityServerConfig.ApiFriendlyName }
+                                }
+                        }
                     }
-                };
-                c.AddSecurityRequirement(security);
+                });
+                //c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                //{
+                //    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                //    Name = "Authorization",
+                //    In = ParameterLocation.Header,
+                //    Type = SecuritySchemeType.ApiKey,
+                //    Scheme = "Bearer"
+                //});
+
+                //var security = new OpenApiSecurityRequirement()
+                //{
+                //    {
+                //        new OpenApiSecurityScheme
+                //        {
+                //            Reference = new OpenApiReference
+                //            {
+                //                Type = ReferenceType.SecurityScheme,
+                //                Id = "Bearer"
+                //            },
+                //            Scheme = "oauth2",
+                //            Name = "Bearer",
+                //            In = ParameterLocation.Header,
+                //        },
+                //        new List<string>()
+
+                //    }
+                //};
+                //c.AddSecurityRequirement(security);
             });
 
             return serviceCollection;

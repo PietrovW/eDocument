@@ -2,7 +2,7 @@
 
 namespace eDocument.Infrastructure.Repositories.Interfaces
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IProductRepository : IRepositoryBase<Product>
     {
 
     }

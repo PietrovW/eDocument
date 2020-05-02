@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace eDocument.Infrastructure.Repositories.Interfaces
 {
-    public interface ICustomerRepository : IRepository<Customer>
+    public interface ICustomerRepository : IRepositoryBase<Customer>
     {
         IEnumerable<Customer> GetTopActiveCustomers(int count);
         IEnumerable<Customer> GetAllCustomersData();

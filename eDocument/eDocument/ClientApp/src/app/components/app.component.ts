@@ -13,6 +13,7 @@ import { AuthService } from '../services/auth.service';
 import { ConfigurationService } from '../services/configuration.service';
 import { Permission } from '../models/permission.model';
 import { LoginComponent } from '../components/login/login.component';
+import { InvoiceComponent } from '../components/invoice/invoice.component';
 
 const alertify: any = require('../assets/scripts/alertify.js');
 

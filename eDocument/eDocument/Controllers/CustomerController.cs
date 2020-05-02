@@ -8,19 +8,17 @@ using Microsoft.Extensions.Logging;
 using eDocument.Infrastructure;
 using eDocument.Infrastructure.EmailSender;
 using eDocument.Infrastructure.EmailSender.Base;
+using eDocument.Controllers.Base;
 
 namespace eDocument.Controllers
 {
-    [Route("api/[controller]")]
-    public class CustomerController : ControllerBase
+    public class CustomerController : BaseApiController
     {
-        private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger _logger;
         private readonly IEmailSender _emailSender;
-        public CustomerController(IMapper mapper, IUnitOfWork unitOfWork, ILogger<CustomerController> logger, IEmailSender emailSender)
+        public CustomerController(IMapper mapper, IUnitOfWork unitOfWork, ILogger<CustomerController> logger, IEmailSender emailSender):base(mapper)
         {
-            _mapper = mapper;
             _unitOfWork = unitOfWork;
             _logger = logger;
             _emailSender = emailSender;
@@ -31,7 +29,7 @@ namespace eDocument.Controllers
         public IActionResult Get()
         {
             var allCustomers = _unitOfWork.Customers.GetAllCustomersData();
-            return Ok(_mapper.Map<IEnumerable<CustomerViewModel>>(allCustomers));
+            return Ok(mapper.Map<IEnumerable<CustomerViewModel>>(allCustomers));
         }
 
 

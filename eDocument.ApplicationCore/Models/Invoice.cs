@@ -3,7 +3,6 @@ using eDocument.ApplicationCore.Models;
 using eDocument.ApplicationCore.Models.Base;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DocumentTracking.ApplicationCore.Entities
 {
@@ -14,7 +13,7 @@ namespace DocumentTracking.ApplicationCore.Entities
 
         public TypeInvoiceEnum Type { get; set; }
 
-        public DateTime Date_Received { get; set; }
+        public DateTime DateReceived { get; set; }
 
         public long AttachmentId { get; set; }
 

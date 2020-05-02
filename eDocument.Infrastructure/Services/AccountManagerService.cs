@@ -14,20 +14,20 @@ using System.Threading.Tasks;
 
 namespace eDocument
 {
-    public class AccountManager : IAccountManager
+    public class AccountManagerService : IAccountManagerService
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public AccountManager(
+        public AccountManagerService(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
-            IHttpContextAccessor httpAccessor)
+            IContextUserModels contextUserModels)
         {
             _context = context;
-            _context.CurrentUserId = httpAccessor.HttpContext?.User.FindFirst(ClaimConstants.Subject)?.Value?.Trim();
+            _context.CurrentUserId = contextUserModels.CurrentUserId();
             _userManager = userManager;
             _roleManager = roleManager;
 
@@ -52,7 +52,6 @@ namespace eDocument
         {
             return await _userManager.GetRolesAsync(user);
         }
-
 
         public async Task<(ApplicationUser User, string[] Roles)?> GetUserAndRolesAsync(string userId)
         {
@@ -230,11 +229,6 @@ namespace eDocument
             var result = await _userManager.DeleteAsync(user);
             return (result.Succeeded, result.Errors.Select(e => e.Description).ToArray());
         }
-
-
-
-
-
 
         public async Task<ApplicationRole> GetRoleByIdAsync(string roleId)
         {

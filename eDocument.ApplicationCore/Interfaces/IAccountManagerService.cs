@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 
 namespace eDocument.ApplicationCore.Interfaces
 {
-    public interface IAccountManager
+    public interface IAccountManagerService
     {
-
         Task<bool> CheckPasswordAsync(ApplicationUser user, string password);
         Task<(bool Succeeded, string[] Errors)> CreateRoleAsync(ApplicationRole role, IEnumerable<string> claims);
         Task<(bool Succeeded, string[] Errors)> CreateUserAsync(ApplicationUser user, IEnumerable<string> roles, string password);

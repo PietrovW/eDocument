@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eDocument.Infrastructure.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class Repository<TEntity> : IRepositoryBase<TEntity> where TEntity : class
     {
         protected readonly DbContext _context;
         protected readonly DbSet<TEntity> _entities;

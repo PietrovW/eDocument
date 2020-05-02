@@ -1,4 +1,6 @@
-﻿using eDocument.ApplicationCore.Models.Base;
+﻿using DocumentTracking.ApplicationCore.Entities;
+using eDocument.ApplicationCore.Enums;
+using eDocument.ApplicationCore.Models.Base;
 
 namespace eDocument.ApplicationCore.Models
 {
@@ -17,8 +19,8 @@ namespace eDocument.ApplicationCore.Models
 
         public decimal BankAccount { get; set; }
 
-       // public TypePayment PaymentMethod { get; set; }
+        public TypePaymentEnum PaymentMethod { get; set; }
 
-       // public Invoice Invoice { get; set; }
+        public Invoice Invoice { get; set; }
     }
 }

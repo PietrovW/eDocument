@@ -8,6 +8,7 @@
         "Appointments": "Appointments",
         "Customers": "Customers",
         "Products": "Products",
+        "Invoices": "Invoices",
         "Orders": "Orders",
         "About": "About",
         "Logout": "Logout"
@@ -175,6 +176,25 @@
             "Delete": "Delete task",
             "Important": "Mark as important",
             "Task": "Task",
+            "Description": "Description"
+        },
+        "editor": {
+            "NewTask": "New Task",
+            "Name": "Name",
+            "TaskNameRequired": "Task name is required",
+            "Description": "Description",
+            "Important": "Mark as important",
+            "AddTask": "Add Task"
+        }
+    },
+    "invoice": {
+        "management": {
+            "Search": "Search for invoice...",
+            "HideCompleted": "Hide Completed",
+            "AddTask": "Add Task",
+            "Delete": "Delete task",
+            "Important": "Mark as important",
+            "Name": "Name",
             "Description": "Description"
         },
         "editor": {

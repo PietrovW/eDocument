@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,8 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using eDocument.Authorization;
 using eDocument.Helpers;
-using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using eDocument.Filter;
 using eDocument.Infrastructure;
@@ -23,12 +20,16 @@ using eDocument.Infrastructure.Data;
 using eDocument.ApplicationCore.Constants;
 using eDocument.Infrastructure.EmailSender.Base;
 using eDocument.Infrastructure.EmailSender;
-using eDocument.ApplicationCore;
 using eDocument.ApplicationCore.Interfaces;
 using eDocument.Infrastructure.Data.Base;
 using eDocument.ApplicationCore.Permissions;
-using eDocument.Extensions;
 using eDocument.Configs;
+using Microsoft.IdentityModel.Logging;
+using eDocument.Models;
+using eDocument.Services.Interfaces;
+using eDocument.Services;
+using eDocument.Extensions;
+using FluentValidation.AspNetCore;
 
 namespace eDocument
 {
@@ -46,9 +47,7 @@ namespace eDocument
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(@"Data Source=eDocumentDB.db;", b => b.MigrationsAssembly("eDocument")));
-
+            services.ConfigureSqliteContext(Configuration);
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -87,7 +86,7 @@ namespace eDocument
                 .AddProfileService<ProfileService>();
 
 
-            var applicationUrl = Configuration["ApplicationUrl"].TrimEnd('/');
+            var applicationUrl = "https://localhost:5001";
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                 .AddIdentityServerAuthentication(options =>
@@ -96,6 +95,18 @@ namespace eDocument
                     options.SupportedTokens = SupportedTokens.Jwt;
                     options.RequireHttpsMetadata = false; // Note: Set to true in production
                     options.ApiName = IdentityServerConfig.ApiName;
+
+                    //options.Events = new JwtBearerEvents()
+                    //{
+                    //    OnAuthenticationFailed = context =>
+                    //    {
+                    //        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    //        context.Response.ContentType = "application/json; charset=utf-8";
+                    //        var message = _env.IsDevelopment() ? context.Exception.ToString() : "An error occurred processing your authentication.";
+                    //        var result = JsonConvert.SerializeObject(new { message });
+                    //        return context.Response.WriteAsync(result);
+                    //    }
+                    //};
                 });
 
             services.AddAuthorization(options =>
@@ -111,19 +122,20 @@ namespace eDocument
             });
 
 
-            services.AddCors();
+            services.ConfigureCors();
 
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services.AddScoped<ModelValidationAttributeFilter>();
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            //services.AddAppSwaggerGen();
+            
 
             //services.AddSwaggerGen(c =>
             //{
@@ -149,7 +161,7 @@ namespace eDocument
             services.AddAutoMapper(typeof(Startup));
 
             // Configurations
-            services.Configure<AppSettings>(Configuration);
+          //  services.Configure<AppSettings>(Configuration);
 
 
             // Business Services
@@ -158,7 +170,10 @@ namespace eDocument
 
             // Repositories
             services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
-            services.AddScoped<IAccountManager, AccountManager>();
+            services.AddScoped<IContextUserModels, HttpContextUserModels>();
+            services.AddScoped<IAccountManagerService, AccountManagerService>();
+            services.AddScoped<IInvoiceServices, InvoiceServices>();
+            
 
             // Auth Handlers
             services.AddSingleton<IAuthorizationHandler, ViewUserAuthorizationHandler>();
@@ -214,21 +229,21 @@ namespace eDocument
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action=Index}/{id?}"); 
 
             });
 
-           // app.SeedData();
+            //app.SeedData();
 
             app.UseSpa(spa =>
             {
-               
+
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
-                    spa.Options.StartupTimeout = TimeSpan.FromSeconds(120); // Increase the timeout if angular app is taking longer to startup
+                    //spa.Options.StartupTimeout = TimeSpan.FromSeconds(120); // Increase the timeout if angular app is taking longer to startup
                     //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // Use this instead to use the angular cli server
                 }
             });

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using DocumentTracking.ApplicationCore.Entities;
 using eDocument.ApplicationCore.Models;
 using eDocument.ApplicationCore.Permissions;
+using eDocument.ViewModels.User;
 using Microsoft.AspNetCore.Identity;
 
 namespace eDocument.ViewModels
@@ -50,6 +52,9 @@ namespace eDocument.ViewModels
 
             CreateMap<Order, OrderViewModel>()
                 .ReverseMap();
+
+            CreateMap<Invoice, InvoiceViewModel>()
+            .ReverseMap();
         }
     }
 }

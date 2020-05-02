@@ -11,6 +11,8 @@ namespace eDocument.Infrastructure
         ICustomerRepository _customers;
         IProductRepository _products;
         IOrdersRepository _orders;
+        IInvoiceRepository _invoices;
+        IProcessRepository _process;
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -49,6 +51,28 @@ namespace eDocument.Infrastructure
                     _orders = new OrdersRepository(_context);
 
                 return _orders;
+            }
+        }
+
+        public IInvoiceRepository Invoices
+        {
+            get
+            {
+                if (_invoices == null)
+                    _invoices = new InvoiceRepository(_context);
+
+                return _invoices;
+            }
+        }
+
+        public IProcessRepository Process
+        {
+            get
+            {
+                if (_process == null)
+                    _process = new ProcessRepository(_context);
+
+                return _process;
             }
         }
 
