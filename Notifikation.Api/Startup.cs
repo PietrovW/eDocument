@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Notifikation.Infrastructure.Context;
+using eDocument.Infrastructure.Extensions;
 
 namespace Notifikation.Api
 {
@@ -12,11 +14,12 @@ namespace Notifikation.Api
         
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<NotifikationDbContext>(options =>
+            services.AddDbContext<NotifikationContext>(options =>
                     options.UseSqlite("Data Source=blogging.db")
                     );
-            services.AddScoped<Infrastructure.Context.INotifikationWriteContext, NotifikationWriteContext>();
-            services.AddScoped<INotifikationReadContext, NotifikationReadDbContext>();
+            services.AddScoped<INotifikationWriteContext, NotifikationWriteContext>();
+            services.AddScoped<INotifikationReadContext, NotifikationReadContext>();
+            services.RegisterSwaggerGenServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -26,7 +29,7 @@ namespace Notifikation.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.RegisterSwaggerUIConfigure();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
