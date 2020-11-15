@@ -23,7 +23,6 @@ namespace Notifikation.Worker
                     services.AddDbContext<NotifikationContext>(options =>
                     options.UseSqlite("Data Source=blogging.db")
                     );
-
                     services.AddScoped<INotifikationWriteContext, NotifikationWriteContext>();
                     services.AddScoped<INotifikationReadContext, NotifikationReadContext>();
                     services.RegisterQueueServices(hostContext);
