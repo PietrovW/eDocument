@@ -8,8 +8,7 @@ namespace Notifikation.Infrastructure.EntityTypeConfigurations
     {
         public void Configure(EntityTypeBuilder<UserModel> builder)
         {
-           // builder.ToTable("Users", "User");
-            //builder.//.ToTable("Users");
+            builder.ToTable("Users");
         }
     }
 }

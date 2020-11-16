@@ -1,28 +1,73 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Notifikation.Infrastructure.Context;
 using eDocument.Infrastructure.Extensions;
+using MassTransit;
+using Notifikation.Infrastructure.CommandHandler;
+using Microsoft.Extensions.Configuration;
 
 namespace Notifikation.Api
 {
     public class Startup
     {
-        
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+        public IConfiguration Configuration { get; }
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            services.AddDbContext<NotifikationContext>(options =>
+                    options.UseSqlite(Configuration.GetConnectionString("NotifikationContext"))
+                    );
+            ConfigureApi(services);
+        }
+
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            services.AddDbContext<NotifikationContext>(options =>
+                    options.UseSqlite(Configuration.GetConnectionString("NotifikationContext"))
+                    
+                    );
+            ConfigureApi(services);
+        }
+
+        public void ConfigureTestServices(IServiceCollection services)
+        {
+            services.AddDbContext<NotifikationContext>(options =>
+                    options.UseInMemoryDatabase(Configuration.GetConnectionString("NotifikationContext"))
+                    );
+            ConfigureApi(services);
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<NotifikationContext>(options =>
-                    options.UseSqlite("Data Source=blogging.db")
+                    options.UseSqlite("Data Source=Notifikation.db")
                     );
+            ConfigureApi(services);
+        }
+        private void ConfigureApi(IServiceCollection services)
+        {
+            services.AddControllers();
             services.AddScoped<INotifikationWriteContext, NotifikationWriteContext>();
             services.AddScoped<INotifikationReadContext, NotifikationReadContext>();
             services.RegisterSwaggerGenServices();
+
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<CreateNotifikationCommandHandler>();
+                x.UsingInMemory((context, cfg) =>
+                {
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
+            services.AddMassTransitHostedService();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -34,10 +79,7 @@ namespace Notifikation.Api
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }

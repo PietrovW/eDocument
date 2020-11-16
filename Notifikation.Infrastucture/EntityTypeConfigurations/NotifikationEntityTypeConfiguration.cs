@@ -8,8 +8,8 @@ namespace Notifikation.Infrastructure.EntityTypeConfigurations
     {
         public void Configure(EntityTypeBuilder<NotifikationModel> builder)
         {
-            //builder.ToTable
-           // builder.ToTable("Notifikations","");
+           builder.ToTable("Notifikations");
+           builder.Property(s => s.Message).IsRequired(false);
         }
     }
 }

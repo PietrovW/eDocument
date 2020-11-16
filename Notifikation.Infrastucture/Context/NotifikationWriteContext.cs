@@ -17,17 +17,5 @@ namespace Notifikation.Infrastructure.Context
         {
             return await context.Database.GetDbConnection().ExecuteAsync(sql, param, transaction);
         }
-        public async Task<IReadOnlyList<T>> QueryAsync<T>(string sql, object param = null, System.Data.IDbTransaction transaction = null, CancellationToken cancellationToken = default)
-        {
-            return (await context.Database.GetDbConnection().QueryAsync<T>(sql, param, transaction)).AsList();
-        }
-        public async Task<T> QueryFirstOrDefaultAsync<T>(string sql, object param = null, System.Data.IDbTransaction transaction = null, CancellationToken cancellationToken = default)
-        {
-            return await context.Database.GetDbConnection().QueryFirstOrDefaultAsync<T>(sql, param, transaction);
-        }
-        public async Task<T> QuerySingleAsync<T>(string sql, object param = null, System.Data.IDbTransaction transaction = null, CancellationToken cancellationToken = default)
-        {
-            return await context.Database.GetDbConnection().QuerySingleAsync<T>(sql, param, transaction);
-        }
     }
 }

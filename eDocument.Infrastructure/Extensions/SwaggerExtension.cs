@@ -18,10 +18,12 @@ namespace eDocument.Infrastructure.Extensions
 
         public static IApplicationBuilder RegisterSwaggerUIConfigure(this IApplicationBuilder app)
         {
+            app.UseStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
             });
             return app;
         }

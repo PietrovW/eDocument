@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Net;
-using DocumentTracking.Infrastructure.Extensions;
-using DocumentTracking.Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace eDocument.Infrastructure.Filter
 {
@@ -11,24 +10,29 @@ namespace eDocument.Infrastructure.Filter
     {
         private readonly ILogger<HttpGlobalExceptionFilter> logger;
 
-        public HttpGlobalExceptionFilter(ILogger<HttpGlobalExceptionFilter> logger)
-        {
-            this.logger = logger;
-        }
+        //public HttpGlobalExceptionFilter(ILogger<HttpGlobalExceptionFilter> logger)
+        //{
+        //    this.logger = logger;
+        //}
 
         public void OnException(ExceptionContext context)
         {
             logger.LogError(new EventId(context.Exception.HResult),
                 context.Exception,
-
                 context.Exception.Message);
-            if (context.Exception.GetType() == typeof(DomainException))
+
+            if (context.Exception.GetType() == typeof(InfrastructureException))
             {
-                var json = new JsonErrorResponse
+                var problemDetails = new ValidationProblemDetails()
                 {
-                    Messages = new[] { context.Exception.Message }
+                    Instance = context.HttpContext.Request.Path,
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = "Please refer to the errors property for additional details."
                 };
-                context.Result = new BadRequestObjectResult(json);
+
+                problemDetails.Errors.Add("DomainValidations", new string[] { context.Exception.Message.ToString() });
+
+                context.Result = new BadRequestObjectResult(problemDetails);
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             }
             else
@@ -38,7 +42,12 @@ namespace eDocument.Infrastructure.Filter
                     Messages = new[] { "An error occur.Try it again." }
                 };
 
-                context.Result = new InternalServerErrorObjectResult(json);
+                if (env.IsDevelopment())
+                {
+                    json.DeveloperMessage = context.Exception;
+                }
+
+                // context.Result = new InternalServerErrorObjectResult(json);
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
             context.ExceptionHandled = true;
