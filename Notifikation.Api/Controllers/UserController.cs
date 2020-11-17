@@ -11,5 +11,6 @@ namespace Notifikation.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+
     }
 }

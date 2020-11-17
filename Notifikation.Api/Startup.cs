@@ -8,6 +8,7 @@ using eDocument.Infrastructure.Extensions;
 using MassTransit;
 using Notifikation.Infrastructure.CommandHandler;
 using Microsoft.Extensions.Configuration;
+using AutoMapper;
 
 namespace Notifikation.Api
 {
@@ -52,20 +53,11 @@ namespace Notifikation.Api
         }
         private void ConfigureApi(IServiceCollection services)
         {
+           
             services.AddControllers();
             services.AddScoped<INotifikationWriteContext, NotifikationWriteContext>();
             services.AddScoped<INotifikationReadContext, NotifikationReadContext>();
             services.RegisterSwaggerGenServices();
-
-            services.AddMassTransit(x =>
-            {
-                x.AddConsumer<CreateNotifikationCommandHandler>();
-                x.UsingInMemory((context, cfg) =>
-                {
-                    cfg.ConfigureEndpoints(context);
-                });
-            });
-            services.AddMassTransitHostedService();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

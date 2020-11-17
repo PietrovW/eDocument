@@ -1,9 +1,9 @@
-﻿using Notifikation.Domain.Models;
+﻿using MediatR;
 
 namespace Notifikation.Infrastructure.Command
 {
-    public class DeleteNotifikationCommand
+    public class DeleteNotifikationCommand: IRequest<bool>
     {
-        public NotifikationModel Notifikation { get; set; }
+        public long Id { get; set; }
     }
 }

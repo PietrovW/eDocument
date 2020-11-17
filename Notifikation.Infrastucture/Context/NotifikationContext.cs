@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Notifikation.Domain.Models;
 using System.Data;
-using System.Reflection;
 
 namespace Notifikation.Infrastructure.Context
 {

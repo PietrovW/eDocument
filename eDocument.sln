@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifikation.Test.Integrati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifikation.Test.EndToEnd", "Notifikation.Test.EndToEnd\Notifikation.Test.EndToEnd.csproj", "{78305A68-C037-4312-9195-640C52E8533F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifikation.Test", "Notifikation.Test\Notifikation.Test.csproj", "{EC275544-0BC4-406F-8047-58FBE1F72FF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{78305A68-C037-4312-9195-640C52E8533F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78305A68-C037-4312-9195-640C52E8533F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78305A68-C037-4312-9195-640C52E8533F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC275544-0BC4-406F-8047-58FBE1F72FF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC275544-0BC4-406F-8047-58FBE1F72FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC275544-0BC4-406F-8047-58FBE1F72FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC275544-0BC4-406F-8047-58FBE1F72FF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +133,7 @@ Global
 		{5F7E62A4-FB8F-40F6-B517-A87CC1B27809} = {631A58E6-F5AE-4309-B0DE-54D3DFE075C0}
 		{154DC6F4-C6D0-4C57-A78C-DC6228A9D900} = {5F7E62A4-FB8F-40F6-B517-A87CC1B27809}
 		{78305A68-C037-4312-9195-640C52E8533F} = {5F7E62A4-FB8F-40F6-B517-A87CC1B27809}
+		{EC275544-0BC4-406F-8047-58FBE1F72FF7} = {5F7E62A4-FB8F-40F6-B517-A87CC1B27809}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {39A42E0C-9133-478E-81DC-F65338226F6F}

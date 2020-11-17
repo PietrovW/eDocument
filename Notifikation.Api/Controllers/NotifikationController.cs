@@ -1,44 +1,32 @@
-﻿using eDocument.Infrastructure.Controllers;
+﻿using AutoMapper;
+using eDocument.Infrastructure.Controllers;
 using MassTransit;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Notifikation.Api.Models;
 using Notifikation.Infrastructure.Command;
 using Notifikation.Infrastructure.DTO;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Notifikation.Api.Controllers
 {
     public class NotifikationController : BasketController
     {
-        private IPublishEndpoint publishEndpoint;
-
-        public NotifikationController(IPublishEndpoint publishEndpoint)
+        public NotifikationController(IMapper mapper, IMediator mediator) : base(mapper, mediator)
         {
-            this.publishEndpoint = publishEndpoint;
         }
-        ////[HttpGet("{id}")]
-        ////public async Task<ActionResult<NotifikatItemDTO>> GetNotifikatItem(long id)
-        ////{
-        ////    // var todoItem = await _context.TodoItems.FindAsync(id);
-
-        ////    // if (todoItem == null)
-        ////    // {
-        ////    //   return NotFound();
-        ////    //}
-        ////    return null;
-        ////    //return todoItem;
-        ////}
 
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        [Produces("application/json")]
-        public async Task<IActionResult> Post([FromBody] NotifikatItemDTO notifikationModel)
+        [ProducesResponseType(typeof(NotifikatItemDTO), (int)HttpStatusCode.Created)]
+        public async Task<ActionResult> Post([FromBody] NotifikationModel notifikationModel)
         {
-            var createNotifikation = new CreateNotifikationCommand();
-            createNotifikation.Notifikation = notifikationModel;
-          await  publishEndpoint.Publish(createNotifikation);
-
-            return Ok(new { name ="" });
+            return Created(string.Empty, await mediator.Send(new CreateNotifikationCommand
+            {
+                Notifikation = mapper.Map<NotifikatItemDTO>(notifikationModel)
+            }));
         }
         ////[HttpPut("{id}")]
         ////public async Task<IActionResult> PutTodoItem(long id, NotifikatItemDTO todoItem)
@@ -66,18 +54,13 @@ namespace Notifikation.Api.Controllers
         ////}
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTodoItem(long id)
+        [ProducesResponseType(typeof(NotifikatItemDTO), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Delete([FromRoute] long id)
         {
-            //var todoItem = await _context.TodoItems.FindAsync(id);
-            //if (todoItem == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //_context.TodoItems.Remove(todoItem);
-            //await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(await mediator.Send(new DeleteNotifikationCommand
+            {
+                Id = id
+            }));
         }
     }
 }
