@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hangfire;
 using Hangfire.MemoryStorage;
+using Hangfire.SQLite;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using TaskManager.Infrastructure.Activator;
 
 namespace TaskManager.Api
@@ -32,7 +32,8 @@ namespace TaskManager.Api
         }
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
-           
+            services.AddControllers();
+            services.AddHangfire(opts => opts.UseSQLiteStorage(Guid.NewGuid().ToString()));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
