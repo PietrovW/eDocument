@@ -10,6 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BackgroundService\" />
+    <ProjectReference Include="..\TaskManager.Infrasture\TaskManager.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

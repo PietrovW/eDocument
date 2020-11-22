@@ -7,7 +7,7 @@ namespace eDocument.Infrastructure.Extensions
 {
     public static class QueueExtension
     {
-        public static IServiceCollection RegisterQueueServices(this IServiceCollection services, HostBuilderContext context)
+        public static IServiceCollection RegisterQueueServices(this IServiceCollection services)
         {
             var busConfigOptions = new BusConfigOptions();
             services.AddMassTransit(provider =>

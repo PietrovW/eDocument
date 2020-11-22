@@ -5,10 +5,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Notifikation.Infrastructure.Context;
 using eDocument.Infrastructure.Extensions;
-using MassTransit;
-using Notifikation.Infrastructure.CommandHandler;
 using Microsoft.Extensions.Configuration;
-using AutoMapper;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Notifikation.Api
 {
@@ -30,8 +28,9 @@ namespace Notifikation.Api
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
             services.AddDbContext<NotifikationContext>(options =>
-                    options.UseSqlite(Configuration.GetConnectionString("NotifikationContext"))
-                    
+                    options.UseSqlite(Configuration.GetConnectionString("NotifikationContext") ,x => x.MigrationsAssembly("Notifikation.Api.Migrations"))
+                     .ReplaceService<IMigrationsSqlGenerator, SqliteMigrationsSqlGenerator>()
+                    .EnableDetailedErrors(),ServiceLifetime.Transient
                     );
             ConfigureApi(services);
         }
@@ -58,6 +57,7 @@ namespace Notifikation.Api
             services.AddScoped<INotifikationWriteContext, NotifikationWriteContext>();
             services.AddScoped<INotifikationReadContext, NotifikationReadContext>();
             services.RegisterSwaggerGenServices();
+            services.RegisterQueueServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

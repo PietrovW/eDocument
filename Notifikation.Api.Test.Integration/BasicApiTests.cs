@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Notifikation.Api;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 using System.Threading.Tasks;
 
@@ -16,11 +14,7 @@ namespace Notifikation.Test.Integration
         }
 
         [Theory]
-        [InlineData("/")]
-        [InlineData("/Index")]
-        [InlineData("/About")]
-        [InlineData("/Privacy")]
-        [InlineData("/Contact")]
+        [InlineData("/Notifikation")]
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange

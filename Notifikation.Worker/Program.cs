@@ -25,7 +25,7 @@ namespace Notifikation.Worker
                     );
                     services.AddScoped<INotifikationWriteContext, NotifikationWriteContext>();
                     services.AddScoped<INotifikationReadContext, NotifikationReadContext>();
-                    services.RegisterQueueServices(hostContext);
+                    services.RegisterQueueServices();
                     services.AddHostedService<SendMessageHostedService>();
                     }).ConfigureLogging((hostingContext, logging) =>
                 {
