@@ -8,7 +8,9 @@ namespace Notifikation.Api.Automapper
     {
         public MappingProfile()
         {
-            CreateMap<NotifikationModel, NotifikatItemDTO>();
+            CreateMap<NotifikationModel, NotifikatItemDTO>()
+                .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.Message))
+                .ForMember(dest => dest.User, opt => opt.Ignore());
         }
     }
 }

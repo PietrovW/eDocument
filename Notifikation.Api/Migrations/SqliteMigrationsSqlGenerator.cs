@@ -10,7 +10,7 @@ namespace Notifikation.Api.Migrations
     public class SqliteMigrationsSqlGenerator : MigrationsSqlGenerator
     {
         public SqliteMigrationsSqlGenerator
-            (MigrationsSqlGeneratorDependencies options) :base(options)
+            (MigrationsSqlGeneratorDependencies options) : base(options)
         {
         }
         protected override void Generate(
@@ -45,5 +45,4 @@ namespace Notifikation.Api.Migrations
         }
     }
 
-}
 }
