@@ -64,7 +64,6 @@ namespace Notifikation.Api
             services.AddScoped<INotifikationReadContext, NotifikationReadContext>();
             services.RegisterSwaggerGenServices();
             services.AddScoped<IRequestHandler<CreateNotifikationCommand, NotifikatItemDTO>, CreateNotifikationCommandHandler>();
-            // services.RegisterQueueServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
