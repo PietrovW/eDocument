@@ -13,6 +13,7 @@ using System.Reflection;
 using Notifikation.Infrastructure.DTO;
 using Notifikation.Infrastructure.Command;
 using Notifikation.Infrastructure.CommandHandler;
+using System;
 
 namespace Notifikation.Api
 {
@@ -34,8 +35,8 @@ namespace Notifikation.Api
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
             services.AddDbContext<NotifikationContext>(options =>
-                    options.UseSqlite(Configuration.GetConnectionString("NotifikationContext") ,x => x.MigrationsAssembly("Notifikation.Api.Migrations"))
-                    /// .ReplaceService<IMigrationsSqlGenerator, SqliteMigrationsSqlGenerator>()
+                    options.UseNpgsql("Host=my_host;Database=my_db;Username=my_user;Password=my_pw", x => x.MigrationsAssembly("Notifikation.Api.Migrations"))
+                    .ReplaceService<IMigrationsSqlGenerator, SqliteMigrationsSqlGenerator>()
                     .EnableDetailedErrors(),ServiceLifetime.Transient
                     );
             ConfigureApi(services);
@@ -58,11 +59,13 @@ namespace Notifikation.Api
         }
         private void ConfigureApi(IServiceCollection services)
         {
+            services.AddOptions();
             services.RegisterServices(typeof(Startup).GetTypeInfo().Assembly);
             services.AddControllers();
             services.AddScoped<INotifikationWriteContext, NotifikationWriteContext>();
             services.AddScoped<INotifikationReadContext, NotifikationReadContext>();
             services.RegisterSwaggerGenServices();
+
             services.AddScoped<IRequestHandler<CreateNotifikationCommand, NotifikatItemDTO>, CreateNotifikationCommandHandler>();
         }
 

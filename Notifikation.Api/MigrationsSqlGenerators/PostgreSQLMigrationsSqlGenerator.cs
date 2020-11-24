@@ -1,15 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using Microsoft.EntityFrameworkCore.Update;
-using System;
-using System.Collections.Generic;
+using Notifikation.Api.Operation;
 
-namespace Notifikation.Api.Migrations
+namespace Notifikation.Api.MigrationsSqlGenerators
 {
-    public class SqliteMigrationsSqlGenerator : MigrationsSqlGenerator
+    public class PostgreSQLMigrationsSqlGenerator : MigrationsSqlGenerator
     {
-        public SqliteMigrationsSqlGenerator
+        public PostgreSQLMigrationsSqlGenerator
             (MigrationsSqlGeneratorDependencies options) : base(options)
         {
         }
@@ -36,13 +34,11 @@ namespace Notifikation.Api.Migrations
             var stringMapping = Dependencies.TypeMappingSource.FindMapping(typeof(string));
 
             builder
-                .Append("CREATE USER ")
+                .Append("create user ")
                 .Append(sqlHelper.DelimitIdentifier(operation.Name))
-                .Append(" WITH PASSWORD = ")
-                .Append(stringMapping.GenerateSqlLiteral(operation.Password))
-                .AppendLine(sqlHelper.StatementTerminator)
+                .Append(" with encrypted password  ")
+                .Append(" \'"+stringMapping.GenerateSqlLiteral(operation.Password)+"\'")
                 .EndCommand();
         }
     }
-
 }

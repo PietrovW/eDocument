@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations.Operations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
 
 namespace Notifikation.Api.Operation
 {
@@ -6,18 +8,5 @@ namespace Notifikation.Api.Operation
     {
         public string Name { get; set; }
         public string Password { get; set; }
-
-        static OperationBuilder<CreateUserOperation> CreateUser(
-        this MigrationBuilder migrationBuilder, string name, string password)
-        {
-            var operation = new CreateUserOperation
-            {
-                Name = name,
-                Password = password
-            };
-            migrationBuilder.Operations.Add(operation);
-
-            return new OperationBuilder<CreateUserOperation>(operation);
-        }
     }
 }
