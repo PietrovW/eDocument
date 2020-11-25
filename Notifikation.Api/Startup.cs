@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using Notifikation.Infrastructure.Context;
 using eDocument.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore.Migrations;
-using AutoMapper;
 using MediatR;
 using System.Reflection;
 using Notifikation.Infrastructure.DTO;
 using Notifikation.Infrastructure.Command;
 using Notifikation.Infrastructure.CommandHandler;
 using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Notifikation.Infrastructure.MigrationsSqlGenerators;
 
 namespace Notifikation.Api
 {
@@ -27,26 +27,25 @@ namespace Notifikation.Api
         public void ConfigureProductionServices(IServiceCollection services)
         {
             services.AddDbContext<NotifikationContext>(options =>
-                    options.UseSqlite(Configuration.GetConnectionString("NotifikationContext"))
+                    options.UseSqlite(Configuration.GetConnectionString("NotifikationContext"), x => x.MigrationsAssembly("SqliteMigrations"))
                     );
             ConfigureApi(services);
         }
 
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
-            services.AddDbContext<NotifikationContext>(options =>
-                    options.UseNpgsql("Host=my_host;Database=my_db;Username=my_user;Password=my_pw", x => x.MigrationsAssembly("Notifikation.Api.Migrations"))
-                    .ReplaceService<IMigrationsSqlGenerator, SqliteMigrationsSqlGenerator>()
-                    .EnableDetailedErrors(),ServiceLifetime.Transient
-                    );
+             services.AddDbContext<NotifikationContext>(options =>
+                   options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=postgres", x => x.MigrationsAssembly("PostgreSQLMigrations"))
+                   .ReplaceService<IMigrationsSqlGenerator, PostgreSQLMigrationsSqlGenerator>()
+              .EnableDetailedErrors(),ServiceLifetime.Transient
+              );
             ConfigureApi(services);
         }
 
         public void ConfigureTestServices(IServiceCollection services)
         {
             services.AddDbContext<NotifikationContext>(options =>
-                    options.UseInMemoryDatabase(Configuration.GetConnectionString("NotifikationContext"))
-                    );
+                    options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
             ConfigureApi(services);
         }
 

@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using Notifikation.Api.Operation;
+using Notifikation.Infrastructure.Operation;
 
-namespace Notifikation.Api.MigrationsSqlGenerators
+namespace Notifikation.Infrastructure.MigrationsSqlGenerators
 {
     public class PostgreSQLMigrationsSqlGenerator : MigrationsSqlGenerator
     {

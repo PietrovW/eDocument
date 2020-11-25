@@ -2,17 +2,15 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Notifikation.Infrastructure.Context;
 
-namespace Notifikation.Infrastructure.Migrations
+namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
 {
     [DbContext(typeof(NotifikationContext))]
-    [Migration("20201116212734_InitialCreate")]
-    partial class InitialCreate
+    partial class NotifikationContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +24,7 @@ namespace Notifikation.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AttachmentModels");
+                    b.ToTable("Attachments");
                 });
 
             modelBuilder.Entity("Notifikation.Domain.Models.NotifikationModel", b =>
@@ -45,7 +43,7 @@ namespace Notifikation.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("NotifikationModels");
+                    b.ToTable("Notifikations");
                 });
 
             modelBuilder.Entity("Notifikation.Domain.Models.UserModel", b =>
@@ -62,7 +60,7 @@ namespace Notifikation.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserModels");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Notifikation.Domain.Models.NotifikationModel", b =>

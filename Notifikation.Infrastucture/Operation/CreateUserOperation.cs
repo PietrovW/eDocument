@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
 
-namespace Notifikation.Api.Operation
+namespace Notifikation.Infrastructure.Operation
 {
     public class CreateUserOperation : MigrationOperation
     {
