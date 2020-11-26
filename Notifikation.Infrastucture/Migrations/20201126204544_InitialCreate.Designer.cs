@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Notifikation.Infrastructure.Context;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
+namespace Notifikation.Infrastructure.Migrations
 {
     [DbContext(typeof(NotifikationContext))]
-    [Migration("20201125220902_InitialCreatePostgreSQL")]
-    partial class InitialCreatePostgreSQL
+    [Migration("20201126204544_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,7 +30,7 @@ namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Attachments");
+                    b.ToTable("Attachments", "Notifikation");
                 });
 
             modelBuilder.Entity("Notifikation.Domain.Models.NotifikationModel", b =>
@@ -50,7 +50,7 @@ namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifikations");
+                    b.ToTable("Notifikations", "Notifikation");
                 });
 
             modelBuilder.Entity("Notifikation.Domain.Models.UserModel", b =>
@@ -61,14 +61,16 @@ namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
                         .UseIdentityByDefaultColumn();
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", "Notifikation");
                 });
 
             modelBuilder.Entity("Notifikation.Domain.Models.NotifikationModel", b =>

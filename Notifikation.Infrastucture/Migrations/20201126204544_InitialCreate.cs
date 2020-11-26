@@ -1,14 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
+namespace Notifikation.Infrastructure.Migrations
 {
-    public partial class InitialCreatePostgreSQL : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "Notifikation");
+
             migrationBuilder.CreateTable(
                 name: "Attachments",
+                schema: "Notifikation",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -21,12 +25,13 @@ namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
 
             migrationBuilder.CreateTable(
                 name: "Users",
+                schema: "Notifikation",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "text", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,6 +40,7 @@ namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
 
             migrationBuilder.CreateTable(
                 name: "Notifikations",
+                schema: "Notifikation",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -48,6 +54,7 @@ namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
                     table.ForeignKey(
                         name: "FK_Notifikations_Users_UserId",
                         column: x => x.UserId,
+                        principalSchema: "Notifikation",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -55,6 +62,7 @@ namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notifikations_UserId",
+                schema: "Notifikation",
                 table: "Notifikations",
                 column: "UserId");
         }
@@ -62,13 +70,16 @@ namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Attachments");
+                name: "Attachments",
+                schema: "Notifikation");
 
             migrationBuilder.DropTable(
-                name: "Notifikations");
+                name: "Notifikations",
+                schema: "Notifikation");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Users",
+                schema: "Notifikation");
         }
     }
 }

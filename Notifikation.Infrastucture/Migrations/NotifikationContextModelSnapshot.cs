@@ -4,8 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Notifikation.Infrastructure.Context;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
+namespace Notifikation.Infrastructure.Migrations
 {
     [DbContext(typeof(NotifikationContext))]
     partial class NotifikationContextModelSnapshot : ModelSnapshot
@@ -14,53 +15,60 @@ namespace Notifikation.Infrastructure.Migrations.PostgreSQLMigrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .UseIdentityByDefaultColumns()
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("Notifikation.Domain.Models.AttachmentModel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint")
+                        .UseIdentityByDefaultColumn();
 
                     b.HasKey("Id");
 
-                    b.ToTable("Attachments");
+                    b.ToTable("Attachments", "Notifikation");
                 });
 
             modelBuilder.Entity("Notifikation.Domain.Models.NotifikationModel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint")
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<string>("Message")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<long?>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifikations");
+                    b.ToTable("Notifikations", "Notifikation");
                 });
 
             modelBuilder.Entity("Notifikation.Domain.Models.UserModel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint")
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<string>("Email")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", "Notifikation");
                 });
 
             modelBuilder.Entity("Notifikation.Domain.Models.NotifikationModel", b =>

@@ -8,7 +8,9 @@ namespace Notifikation.Infrastructure.EntityTypeConfigurations
     {
         public void Configure(EntityTypeBuilder<UserModel> builder)
         {
-            builder.ToTable("Users");
+            builder.ToTable("Users", "Notifikation");
+            builder.Property(p => p.Name).IsRequired();
+            builder.Property(p => p.Email).IsRequired();
         }
     }
 }

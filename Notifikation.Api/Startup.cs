@@ -27,7 +27,7 @@ namespace Notifikation.Api
         public void ConfigureProductionServices(IServiceCollection services)
         {
             services.AddDbContext<NotifikationContext>(options =>
-                    options.UseSqlite(Configuration.GetConnectionString("NotifikationContext"), x => x.MigrationsAssembly("SqliteMigrations"))
+                    options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=postgres")
                     );
             ConfigureApi(services);
         }
@@ -35,9 +35,7 @@ namespace Notifikation.Api
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
              services.AddDbContext<NotifikationContext>(options =>
-                   options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=postgres", x => x.MigrationsAssembly("PostgreSQLMigrations"))
-                   .ReplaceService<IMigrationsSqlGenerator, PostgreSQLMigrationsSqlGenerator>()
-              .EnableDetailedErrors(),ServiceLifetime.Transient
+                   options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=postgres",h=>h.MigrationsHistoryTable("MigrationsHitory", "Notifikation"))
               );
             ConfigureApi(services);
         }
@@ -52,7 +50,7 @@ namespace Notifikation.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<NotifikationContext>(options =>
-                    options.UseSqlite("Data Source=Notifikation.db")
+                    options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=postgres")
                     );
             ConfigureApi(services);
         }

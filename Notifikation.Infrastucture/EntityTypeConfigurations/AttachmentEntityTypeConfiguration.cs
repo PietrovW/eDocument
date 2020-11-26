@@ -8,7 +8,7 @@ namespace Notifikation.Infrastructure.EntityTypeConfigurations
     {
         public void Configure(EntityTypeBuilder<AttachmentModel> builder)
         {
-            builder.ToTable("Attachments");
+            builder.ToTable("Attachments", "Notifikation");
             
         }
     }
