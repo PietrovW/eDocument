@@ -2,7 +2,7 @@
 using Notifikation.Api.Models;
 using Notifikation.Infrastructure.DTO;
 
-namespace Notifikation.Api.Automapper
+namespace Notifikation.Api.Profiles
 {
     public class MappingProfile : Profile
     {

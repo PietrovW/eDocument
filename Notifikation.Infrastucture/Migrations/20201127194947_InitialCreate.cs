@@ -16,7 +16,8 @@ namespace Notifikation.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Content = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,8 +1,8 @@
 ﻿namespace Notifikation.Domain.Models
 {
-    public class NotifikationModel : BaseModel
+    public class Notifikation : BaseModel
     {
-        public UserModel User { get; set; }
+        public User User { get; set; }
         public string Message { get; set; }
     }
 }

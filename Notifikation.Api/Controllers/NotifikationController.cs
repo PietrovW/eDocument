@@ -23,6 +23,7 @@ namespace Notifikation.Api.Controllers
         [ProducesResponseType(typeof(NotifikatItemDTO), (int)HttpStatusCode.Created)]
         public async Task<ActionResult> Post([FromBody] NotifikationModel notifikationModel)
         {
+            
             return Created(string.Empty, await mediator.Send(new CreateNotifikationCommand
             {
                 Notifikation = mapper.Map<NotifikatItemDTO>(notifikationModel)

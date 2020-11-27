@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Notifikation.Infrastructure.Context;
+using Notifikation.Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,9 @@ namespace Notifikation.Api
             var host =  CreateHostBuilder(args).Build();
             using (var scope = host.Services.CreateScope())
             {
-                var db = scope.ServiceProvider.GetRequiredService<NotifikationContext>();
-                db.Database.Migrate();
+                var context = scope.ServiceProvider.GetRequiredService<NotifikationContext>();
+                context.Database.Migrate();
+                context.Seed();
             }
 
             host.Run();

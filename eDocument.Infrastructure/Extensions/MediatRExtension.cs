@@ -8,10 +8,10 @@ namespace eDocument.Infrastructure.Extensions
 {
     public static class MediatRExtension
     {
-        public static IServiceCollection RegisterServices(this IServiceCollection services, Assembly assemblie)
+        public static IServiceCollection RegisterServices(this IServiceCollection services, Assembly assemblie, Type[] profileAssemblyMarkerTypes)
         {
-            services.AddAutoMapper(assemblie);
             services.AddMediatR(assemblie);
+            services.AddAutoMapper(profileAssemblyMarkerTypes);
             return services;
         }
     }

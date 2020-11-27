@@ -12,8 +12,7 @@ using Notifikation.Infrastructure.DTO;
 using Notifikation.Infrastructure.Command;
 using Notifikation.Infrastructure.CommandHandler;
 using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Notifikation.Infrastructure.MigrationsSqlGenerators;
+using AutoMapper;
 
 namespace Notifikation.Api
 {
@@ -57,7 +56,7 @@ namespace Notifikation.Api
         private void ConfigureApi(IServiceCollection services)
         {
             services.AddOptions();
-            services.RegisterServices(typeof(Startup).GetTypeInfo().Assembly);
+            services.RegisterServices(typeof(Startup).GetTypeInfo().Assembly,new Type[] { typeof(Api.Profiles.MappingProfile), typeof(Infrastructure.Profiles.MappingProfile)});
             services.AddControllers();
             services.AddScoped<INotifikationWriteContext, NotifikationWriteContext>();
             services.AddScoped<INotifikationReadContext, NotifikationReadContext>();

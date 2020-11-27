@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Notifikation.Infrastructure.Migrations
 {
     [DbContext(typeof(NotifikationContext))]
-    [Migration("20201126204544_InitialCreate")]
+    [Migration("20201127194947_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,19 +21,23 @@ namespace Notifikation.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("Notifikation.Domain.Models.AttachmentModel", b =>
+            modelBuilder.Entity("Notifikation.Infrastructure.Entity.AttachmentEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .UseIdentityByDefaultColumn();
 
+                    b.Property<byte[]>("Content")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
                     b.HasKey("Id");
 
                     b.ToTable("Attachments", "Notifikation");
                 });
 
-            modelBuilder.Entity("Notifikation.Domain.Models.NotifikationModel", b =>
+            modelBuilder.Entity("Notifikation.Infrastructure.Entity.NotifikationEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,7 +57,7 @@ namespace Notifikation.Infrastructure.Migrations
                     b.ToTable("Notifikations", "Notifikation");
                 });
 
-            modelBuilder.Entity("Notifikation.Domain.Models.UserModel", b =>
+            modelBuilder.Entity("Notifikation.Infrastructure.Entity.UserEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,13 +77,18 @@ namespace Notifikation.Infrastructure.Migrations
                     b.ToTable("Users", "Notifikation");
                 });
 
-            modelBuilder.Entity("Notifikation.Domain.Models.NotifikationModel", b =>
+            modelBuilder.Entity("Notifikation.Infrastructure.Entity.NotifikationEntity", b =>
                 {
-                    b.HasOne("Notifikation.Domain.Models.UserModel", "User")
-                        .WithMany()
+                    b.HasOne("Notifikation.Infrastructure.Entity.UserEntity", "User")
+                        .WithMany("Notifikations")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Notifikation.Infrastructure.Entity.UserEntity", b =>
+                {
+                    b.Navigation("Notifikations");
                 });
 #pragma warning restore 612, 618
         }

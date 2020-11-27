@@ -12,8 +12,10 @@ namespace Notifikation.Test.EndToEnd.Controllers
 
         protected ControllerTestsBase()
         {
-            Server = new TestServer(new WebHostBuilder()
-                          .UseStartup<Api.Startup>());
+           var webHost  =  new WebHostBuilder()
+                          .UseEnvironment("Test")
+                          .UseStartup<Api.Startup>();
+            Server = new TestServer(webHost);
             Client = Server.CreateClient();
         }
     }

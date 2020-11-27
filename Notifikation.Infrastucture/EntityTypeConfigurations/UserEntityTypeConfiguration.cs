@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Notifikation.Domain.Models;
+using Notifikation.Infrastructure.Entity;
 
 namespace Notifikation.Infrastructure.EntityTypeConfigurations
 {
-    public class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserModel>
+    public class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserEntity>
     {
-        public void Configure(EntityTypeBuilder<UserModel> builder)
+        public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
             builder.ToTable("Users", "Notifikation");
             builder.Property(p => p.Name).IsRequired();
