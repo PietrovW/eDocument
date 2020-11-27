@@ -13,13 +13,6 @@ namespace Notifikation.Api
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            using (var scope = host.Services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<NotifikationContext>();
-                await context.Database.MigrateAsync();
-                await context.SeedAsync();
-            }
-
             await host.RunAsync();
         }
 

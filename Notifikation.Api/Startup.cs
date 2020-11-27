@@ -13,6 +13,8 @@ using Notifikation.Infrastructure.Command;
 using Notifikation.Infrastructure.CommandHandler;
 using System;
 using AutoMapper;
+using System.Threading.Tasks;
+using Notifikation.Infrastructure.Extensions;
 
 namespace Notifikation.Api
 {
@@ -33,9 +35,9 @@ namespace Notifikation.Api
 
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
-             services.AddDbContext<NotifikationContext>(options =>
-                   options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=postgres",h=>h.MigrationsHistoryTable("MigrationsHitory", "Notifikation"))
-              );
+            services.AddDbContext<NotifikationContext>(options =>
+                  options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=postgres", h => h.MigrationsHistoryTable("MigrationsHitory", "Notifikation"))
+             );
             ConfigureApi(services);
         }
 
@@ -56,7 +58,7 @@ namespace Notifikation.Api
         private void ConfigureApi(IServiceCollection services)
         {
             services.AddOptions();
-            services.RegisterServices(typeof(Startup).GetTypeInfo().Assembly,new Type[] { typeof(Api.Profiles.MappingProfile), typeof(Infrastructure.Profiles.MappingProfile)});
+            services.RegisterServices(typeof(Startup).GetTypeInfo().Assembly, new Type[] { typeof(Api.Profiles.MappingProfile), typeof(Infrastructure.Profiles.MappingProfile) });
             services.AddControllers();
             services.AddScoped<INotifikationWriteContext, NotifikationWriteContext>();
             services.AddScoped<INotifikationReadContext, NotifikationReadContext>();
@@ -67,6 +69,7 @@ namespace Notifikation.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            UpdateDatabase(app);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -78,6 +81,32 @@ namespace Notifikation.Api
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public void ConfigureTest(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            UpdateDatabase(app, isSeed: true);
+        }
+
+        private static void UpdateDatabase(IApplicationBuilder app, bool isSeed = false)
+        {
+            using (var serviceScope = app.ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<NotifikationContext>())
+                {
+
+                    if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+                    {
+                        context.Database.Migrate();
+                    }
+                    if (isSeed)
+                    {
+                        context.Seed();
+                    }
+                }
+            }
         }
     }
 }

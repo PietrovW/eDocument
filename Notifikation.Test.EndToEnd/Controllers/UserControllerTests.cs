@@ -12,7 +12,6 @@ namespace Notifikation.Test.EndToEnd.Controllers
         [InlineData(1)]
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(long Id)
         {
-
             // Act
             var response = await Client.GetAsync($"api/user/{Id}");
 
