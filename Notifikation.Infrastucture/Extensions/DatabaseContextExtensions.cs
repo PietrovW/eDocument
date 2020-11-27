@@ -2,18 +2,19 @@
 using Notifikation.Infrastructure.Entity;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Notifikation.Infrastructure.Extensions
 {
     public static class DatabaseContextExtensions
     {
-        public static void Seed(this NotifikationContext context)
+        public static async Task SeedAsync(this NotifikationContext context)
         {
-            SeedUsers(context);
-            context.SaveChanges();
+            await SeedUsersAsync(context);
+            await context.SaveChangesAsync();
         }
 
-        static void SeedUsers(NotifikationContext context)
+        private static async Task SeedUsersAsync(NotifikationContext context)
         {
             if (!context.Users.Any())
             {
@@ -24,7 +25,7 @@ namespace Notifikation.Infrastructure.Extensions
                 new UserEntity() { Email = "testc3@test.pl", Name = "Test3" , Id =3  }
             };
                 context.AddRange(countries);
-                context.SaveChanges();
+              await context.SaveChangesAsync();
             }
         }
     }
