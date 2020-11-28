@@ -19,6 +19,7 @@
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.6" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.6.3" />
@@ -26,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Filter\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
   <ItemGroup>
