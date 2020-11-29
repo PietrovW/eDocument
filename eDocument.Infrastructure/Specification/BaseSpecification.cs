@@ -1,12 +1,13 @@
-﻿using System;
+﻿using eDocument.Infrastructure.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace eDocument.Infrastructure.Specification
 {
-    public abstract class BaseSpecification<T> : ISpecification<T>
+    public abstract class BaseSpecification<TEntity> : ISpecification<TEntity> where  TEntity : BaseEntity
     {
-        protected BaseSpecification(Expression<Func<T, bool>> criteria)
+        protected BaseSpecification(Expression<Func<TEntity, bool>> criteria)
         {
             Criteria = criteria;
         }
@@ -14,18 +15,18 @@ namespace eDocument.Infrastructure.Specification
         {
 
         }
-        public Expression<Func<T, bool>> Criteria { get; }
-        public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
+        public Expression<Func<TEntity, bool>> Criteria { get; }
+        public List<Expression<Func<TEntity, object>>> Includes { get; } = new List<Expression<Func<TEntity, object>>>();
         public List<string> IncludeStrings { get; } = new List<string>();
-        public Expression<Func<T, object>> OrderBy { get; private set; }
-        public Expression<Func<T, object>> OrderByDescending { get; private set; }
-        public Expression<Func<T, object>> GroupBy { get; private set; }
+        public Expression<Func<TEntity, object>> OrderBy { get; private set; }
+        public Expression<Func<TEntity, object>> OrderByDescending { get; private set; }
+        public Expression<Func<TEntity, object>> GroupBy { get; private set; }
 
         public int Take { get; private set; }
         public int Skip { get; private set; }
         public bool IsPagingEnabled { get; private set; } = false;
 
-        protected virtual void AddInclude(Expression<Func<T, object>> includeExpression)
+        protected virtual void AddInclude(Expression<Func<TEntity, object>> includeExpression)
         {
             Includes.Add(includeExpression);
         }
@@ -42,17 +43,17 @@ namespace eDocument.Infrastructure.Specification
             IsPagingEnabled = true;
         }
 
-        protected virtual void ApplyOrderBy(Expression<Func<T, object>> orderByExpression)
+        protected virtual void ApplyOrderBy(Expression<Func<TEntity, object>> orderByExpression)
         {
             OrderBy = orderByExpression;
         }
 
-        protected virtual void ApplyOrderByDescending(Expression<Func<T, object>> orderByDescendingExpression)
+        protected virtual void ApplyOrderByDescending(Expression<Func<TEntity, object>> orderByDescendingExpression)
         {
             OrderByDescending = orderByDescendingExpression;
         }
 
-        protected virtual void ApplyGroupBy(Expression<Func<T, object>> groupByExpression)
+        protected virtual void ApplyGroupBy(Expression<Func<TEntity, object>> groupByExpression)
         {
             GroupBy = groupByExpression;
         }
