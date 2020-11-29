@@ -11,7 +11,6 @@ namespace Notifikation.Infrastructure.EntityTypeConfigurations
         {
             builder.ToTable("Attachments", "Notifikation");
             builder.ConfigurationBaseEntity();
-            builder.HasKey(e => e.Id);
             builder.Property(p => p.Content).IsRequired();
         }
     }

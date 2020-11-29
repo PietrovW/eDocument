@@ -1,6 +1,6 @@
 ﻿namespace OCR.Infrastructure.Services
 {
-    public class OCRService
+    public class OCRService: IOCRService
     {
         public OCRService()
         {
