@@ -1,4 +1,6 @@
-﻿namespace Notifikation.Infrastructure.Entity
+﻿using eDocument.Infrastructure.Entity;
+
+namespace Notifikation.Infrastructure.Entity
 {
     public class AttachmentEntity : BaseEntity
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using eDocument.Infrastructure.Entity;
 
 namespace Notifikation.Infrastructure.Entity
 {
