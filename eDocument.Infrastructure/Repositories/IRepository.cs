@@ -1,11 +1,12 @@
-﻿using eDocument.Infrastructure.Specification;
+﻿using eDocument.Infrastructure.Entity;
+using eDocument.Infrastructure.Specification;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace eDocument.Infrastructure.Repositories
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : BaseEntity
     {
         TEntity FindById(int id);
 
