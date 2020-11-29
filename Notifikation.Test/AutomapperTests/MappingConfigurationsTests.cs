@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Xunit;
 
-namespace Notifikation.Test.Automapper
+namespace Notifikation.Test.AutomapperTests
 {
     public class MappingConfigurationsTests
     {

@@ -7,9 +7,10 @@ namespace Notifikation.Infrastructure.Services
 {
     public class EmailService : ISenderService
     {
-        public EmailService()
+        private readonly SmtpClient _client;
+        public EmailService(SmtpClient client)
         {
-            SmtpClient client = new SmtpClient();
+            _client = client;
         }
 
         public async Task<ErrorResponseModel> SendAsync(string sender, string subject, string body)

@@ -15,6 +15,7 @@ using System;
 using AutoMapper;
 using System.Threading.Tasks;
 using Notifikation.Infrastructure.Extensions;
+using System.Linq;
 
 namespace Notifikation.Api
 {
@@ -53,6 +54,7 @@ namespace Notifikation.Api
             services.AddDbContext<NotifikationContext>(options =>
                     options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=postgres")
                     );
+
             ConfigureApi(services);
         }
         private void ConfigureApi(IServiceCollection services)
@@ -99,7 +101,11 @@ namespace Notifikation.Api
 
                     if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
                     {
-                        context.Database.Migrate();
+                        context.Database.EnsureCreated();
+                        if (context.Database.GetPendingMigrations().Any())
+                        {
+                            context.Database.Migrate();
+                        }
                     }
                     if (isSeed)
                     {

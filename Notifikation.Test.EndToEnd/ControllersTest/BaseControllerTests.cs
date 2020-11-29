@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Hosting;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Notifikation.Test.EndToEnd.Controllers
+namespace Notifikation.Test.EndToEnd.ControllersTest
 {
-    public abstract class ControllerTestsBase
+    public abstract class BaseControllerTests
     {
         protected readonly TestServer Server;
         protected readonly HttpClient Client;
 
-        protected ControllerTestsBase()
+        protected BaseControllerTests()
         {
            var webHost  =  new WebHostBuilder()
                           .UseEnvironment("Test")
