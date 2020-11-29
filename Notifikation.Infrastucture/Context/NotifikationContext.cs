@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Notifikation.Infrastructure.Entity;
+using Notifikation.Infrastructure.EntityTypeConfigurations;
 using System.Data;
 
 namespace Notifikation.Infrastructure.Context
@@ -14,9 +15,9 @@ namespace Notifikation.Infrastructure.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.ApplyConfiguration(new EntityTypeConfigurations.AttachmentEntityTypeConfigurations());
-            builder.ApplyConfiguration(new EntityTypeConfigurations.NotifikationEntityTypeConfigurations());
-            builder.ApplyConfiguration(new EntityTypeConfigurations.UserEntityTypeConfiguration());
+            builder.ApplyConfiguration(new AttachmentEntityTypeConfigurations());
+            builder.ApplyConfiguration(new NotifikationEntityTypeConfigurations());
+            builder.ApplyConfiguration(new UserEntityTypeConfiguration());
         }
 
         public DbSet<NotifikationEntity> Notifikations { get; set; }

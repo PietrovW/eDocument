@@ -6,5 +6,6 @@ namespace eDocument.Domain.Enums
 {
     public enum NotifikationEnum
     {
+        
     }
 }

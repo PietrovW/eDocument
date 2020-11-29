@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+using OCR.Infrastructure.Entitys;
+using OCR.Infrastructure.EntityTypeConfigurations;
 
 namespace Notifikation.Infrastructure.Data
 {
@@ -8,9 +9,10 @@ namespace Notifikation.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            
+            builder.ApplyConfiguration(new DocumentEntityTypeConfigurations());
         }
+
+        public DbSet<DocumentEntity> Documents { get; set; }
 
         public override int SaveChanges()
         {
