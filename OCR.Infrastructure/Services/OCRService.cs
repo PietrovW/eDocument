@@ -1,12 +1,10 @@
-﻿namespace OCR.Infrastructure.Services
+﻿using IronOcr;
+
+namespace OCR.Infrastructure.Services
 {
     public class OCRService: IOCRService
     {
-        public OCRService()
-        {
-          
-
-        }
+        
 
     }
 }

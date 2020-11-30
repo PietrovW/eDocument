@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OCR.Infrastructure.Entitys;
-using OCR.Infrastructure.EntityTypeConfigurations;
 
 namespace Notifikation.Infrastructure.Data
 {
+    using OCR.Infrastructure.Entitys;
+    using OCR.Infrastructure.EntityTypeConfigurations;
     public class OCRDbContext : DbContext
     {
         protected override void OnModelCreating(ModelBuilder builder)
