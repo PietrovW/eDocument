@@ -1,16 +1,16 @@
-﻿using eDocument.Infrastructure.Command;
-using Hangfire;
+﻿using Hangfire;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Notifikation.Infrastructure.CommandHandler
 {
+    using eDocument.Infrastructure.Command;
     public class CreateJobNotifikationCommandHandler : IRequestHandler<CreateJobNotifikationCommand>
     {
         public async Task<Unit> Handle(CreateJobNotifikationCommand request, CancellationToken cancellationToken)
         {
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
                 RecurringJob.RemoveIfExists(request.Name);
                 RecurringJob.AddOrUpdate(() => JobNotifikation(), Cron.Minutely);
