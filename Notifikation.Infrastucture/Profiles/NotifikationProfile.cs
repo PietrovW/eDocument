@@ -4,9 +4,9 @@ using Notifikation.Infrastructure.Entity;
 
 namespace Notifikation.Infrastructure.Profiles
 {
-    public class MappingProfile : Profile
+    public class NotifikationProfile : Profile
     {
-        public MappingProfile()
+        public NotifikationProfile()
         {
             CreateMap<NotifikatItemDTO, NotifikationEntity>()
                 .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.Message))

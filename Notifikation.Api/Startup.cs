@@ -60,7 +60,7 @@ namespace Notifikation.Api
         private void ConfigureApi(IServiceCollection services)
         {
             services.AddOptions();
-            services.RegisterServices(typeof(Startup).GetTypeInfo().Assembly, new Type[] { typeof(Api.Profiles.MappingProfile), typeof(Infrastructure.Profiles.MappingProfile) });
+            services.RegisterServices(typeof(Startup).GetTypeInfo().Assembly, new Type[] { typeof(Api.Profiles.MappingProfile), typeof(Infrastructure.Profiles.NotifikationProfile) });
             services.AddControllers();
             services.AddScoped<INotifikationWriteContext, NotifikationWriteContext>();
             services.AddScoped<INotifikationReadContext, NotifikationReadContext>();

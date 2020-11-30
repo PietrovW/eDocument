@@ -43,7 +43,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifikation.Test", "Notifi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eDocument.Domain", "eDocument.Domain\eDocument.Domain.csproj", "{6ED44FEA-8E8D-4D1D-BB64-DA720505640A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifikation.Test.Acceptance", "Notifikation.Test.Acceptance\Notifikation.Test.Acceptance.csproj", "{FDFB22A4-7776-40DF-8841-5F2B9FF407D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifikation.Test.Acceptance", "Notifikation.Test.Acceptance\Notifikation.Test.Acceptance.csproj", "{FDFB22A4-7776-40DF-8841-5F2B9FF407D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eDocument.Api", "eDocument.Api\eDocument.Api.csproj", "{97387374-959C-49A5-9EBC-4705D578843D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +121,10 @@ Global
 		{FDFB22A4-7776-40DF-8841-5F2B9FF407D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDFB22A4-7776-40DF-8841-5F2B9FF407D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDFB22A4-7776-40DF-8841-5F2B9FF407D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97387374-959C-49A5-9EBC-4705D578843D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97387374-959C-49A5-9EBC-4705D578843D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97387374-959C-49A5-9EBC-4705D578843D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97387374-959C-49A5-9EBC-4705D578843D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,6 @@
-﻿using eDocument.Infrastructure.Entity;
-
-namespace OCR.Infrastructure.Entitys
+﻿namespace OCR.Api.Models
 {
-    public class DocumentEntity : BaseEntity
+    public class DocumentModel
     {
         public string Content { get; set; }
 
