@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OCR.Infrastructure.Entitys;
 
 namespace OCR.Infrastructure.EntityTypeConfigurations
 {
     using eDocument.Infrastructure.Extensions;
+    using OCR.Infrastructure.Entitys;
     public class DocumentEntityTypeConfigurations : IEntityTypeConfiguration<DocumentEntity>
     {
         public void Configure(EntityTypeBuilder<DocumentEntity> builder)

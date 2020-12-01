@@ -8,4 +8,9 @@
     <ProjectReference Include="..\eDocument.Infrastructure\eDocument.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CommandHandler\" />
+    <Folder Include="Queries\" />
+  </ItemGroup>
+
 </Project>
