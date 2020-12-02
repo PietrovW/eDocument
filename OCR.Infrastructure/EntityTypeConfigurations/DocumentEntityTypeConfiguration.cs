@@ -11,7 +11,7 @@ namespace OCR.Infrastructure.EntityTypeConfigurations
         {
             builder.ToTable("Attachments", "OCR");
             builder.ConfigurationBaseEntity();
-            builder.Property(p => p.Name).IsUnicode().IsRequired();
+            builder.Property(p => p.FileName).IsUnicode().IsRequired();
             builder.Property(p => p.Content).IsRequired();
         }
     }

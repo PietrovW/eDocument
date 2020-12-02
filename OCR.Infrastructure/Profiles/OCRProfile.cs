@@ -9,7 +9,7 @@ namespace OCR.Infrastructure.Profiles
         public OCRProfile()
     {
         CreateMap<DocumentDTO, DocumentEntity>()
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.FileName))
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.xmin, opt => opt.Ignore());
