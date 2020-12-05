@@ -1,25 +1,23 @@
 ﻿using MediatR;
-using Notifikation.Infrastructure.Command;
-using Notifikation.Infrastructure.Context;
-using Notifikation.Infrastructure.DTO;
-using Notifikation.Infrastructure.Queries;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Notifikation.Infrastructure.QuerieHandler
 {
+    using Notifikation.Infrastructure.DTO;
+    using Notifikation.Infrastructure.Queries;
+    using eDocument.Infrastructure.Repositories;
     public class GetUserQuerieHandler : IRequestHandler<GetUserQueries, UserDTO>
     {
-        private INotifikationWriteContext notifikationWrite;
-        public GetUserQuerieHandler(INotifikationWriteContext notifikationWrite)
+        private IWriteIRepository notifikationWrite;
+        public GetUserQuerieHandler(IWriteIRepository notifikationWrite)
         {
             this.notifikationWrite = notifikationWrite;
         }
 
         public async Task<UserDTO> Handle(GetUserQueries request, CancellationToken cancellationToken)
         {
-            string sql = string.Empty;
-            await notifikationWrite.ExecuteAsync(sql);
+         
             return null;
         }
     }

@@ -8,5 +8,7 @@
         public string FileName { get; set; }
 
         public long UserId { get; set; }
+
+        public byte[] Bytes { get; set; }
     }
 }

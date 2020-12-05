@@ -1,15 +1,12 @@
-﻿using eDocument.Infrastructure.Entity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Text;
 
 namespace eDocument.Infrastructure.Specification
 {
-    public class SpecificationEvaluator<TEntity> where TEntity : BaseEntity
+    using eDocument.Infrastructure.Entity;
+    public class SpecificationEvaluator 
     {
-        public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
+        public static IQueryable<TEntity> GetQuery<TEntity>(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification) where TEntity : BaseEntity
         {
             var query = inputQuery;
 

@@ -3,11 +3,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Notifikation.Infrastructure.Context;
 using Microsoft.Extensions.Logging;
-using eDocument.Infrastructure.Extensions;
-using Notifikation.Worker.BackgroundServices;
 
 namespace Notifikation.Worker
 {
+    using eDocument.Infrastructure.Extensions;
+    using Notifikation.Worker.BackgroundServices;
+    using eDocument.Infrastructure.Repositories;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -23,8 +25,8 @@ namespace Notifikation.Worker
                     services.AddDbContext<NotifikationContext>(options =>
                     options.UseSqlite("Data Source=blogging.db")
                     );
-                    services.AddScoped<INotifikationWriteContext, NotifikationWriteContext>();
-                    services.AddScoped<INotifikationReadContext, NotifikationReadContext>();
+                    services.AddScoped<IReadRepository, ReadRepository>();
+                    services.AddScoped<IWriteIRepository, WriteIRepository>();
                     services.RegisterQueueServices();
                     services.AddHostedService<SendMessageHostedService>();
                     }).ConfigureLogging((hostingContext, logging) =>

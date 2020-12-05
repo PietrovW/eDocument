@@ -1,8 +1,8 @@
 ﻿using MediatR;
-using OCR.Infrastructure.DTO;
 
 namespace OCR.Infrastructure.Command
 {
+    using OCR.Infrastructure.DTO;
     public class CreateDocumentCommand : IRequest<DocumentDTO>
     {
         public long UserId { get; set; }

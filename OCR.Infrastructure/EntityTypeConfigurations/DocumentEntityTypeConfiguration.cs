@@ -13,6 +13,7 @@ namespace OCR.Infrastructure.EntityTypeConfigurations
             builder.ConfigurationBaseEntity();
             builder.Property(p => p.FileName).IsUnicode().IsRequired();
             builder.Property(p => p.Content).IsRequired();
+            builder.Property(p => p.Bytes).IsRequired();
         }
     }
 }

@@ -12,13 +12,12 @@ using Notifikation.Infrastructure.DTO;
 using Notifikation.Infrastructure.Command;
 using Notifikation.Infrastructure.CommandHandler;
 using System;
-using AutoMapper;
-using System.Threading.Tasks;
 using Notifikation.Infrastructure.Extensions;
 using System.Linq;
 
 namespace Notifikation.Api
 {
+    using eDocument.Infrastructure.Repositories;
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -62,8 +61,8 @@ namespace Notifikation.Api
             services.AddOptions();
             services.RegisterServices(typeof(Startup).GetTypeInfo().Assembly, new Type[] { typeof(Api.Profiles.MappingProfile), typeof(Infrastructure.Profiles.NotifikationProfile) });
             services.AddControllers();
-            services.AddScoped<INotifikationWriteContext, NotifikationWriteContext>();
-            services.AddScoped<INotifikationReadContext, NotifikationReadContext>();
+            services.AddScoped<IReadRepository, ReadRepository>();
+            services.AddScoped<IWriteIRepository, WriteIRepository>();
             services.RegisterSwaggerGenServices();
 
             services.AddScoped<IRequestHandler<CreateNotifikationCommand, NotifikatItemDTO>, CreateNotifikationCommandHandler>();
