@@ -1,22 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using eDocument.Infrastructure.Extensions;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Hangfire.SQLite;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TaskManager.Infrastructure.Activator;
 
 namespace TaskManager.Api
 {
+    using eDocument.Infrastructure.Extensions;
+    using TaskManager.Infrastructure.Activator;
     public class Startup
     {
         public Startup(IConfiguration configuration)
