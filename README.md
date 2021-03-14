@@ -8,7 +8,16 @@
 
 
 ## General info
-
-
+Przykładowa aplikacja mikro serwisowa 
+Sample micro service application
 
 ## Technologies
+
+
+
+
+
+
+
+
+## Setup
