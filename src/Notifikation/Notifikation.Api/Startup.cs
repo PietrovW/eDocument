@@ -30,15 +30,16 @@ namespace Notifikation.Api
         public void ConfigureProductionServices(IServiceCollection services)
         {
             services.AddDbContext<NotifikationContext>(options =>
-                    options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=postgres")
-                    );
+                     options.UseNpgsql(Configuration.GetConnectionString(typeof(NotifikationContext).Name),
+                  h => h.MigrationsHistoryTable("MigrationsHitory", "Notifikation"))
+             );
             ConfigureApi(services);
         }
 
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
             services.AddDbContext<NotifikationContext>(options =>
-                  options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=postgres",
+                  options.UseNpgsql(Configuration.GetConnectionString(typeof(NotifikationContext).Name),
                   h => h.MigrationsHistoryTable("MigrationsHitory", "Notifikation"))
              );
             ConfigureApi(services);
@@ -54,8 +55,8 @@ namespace Notifikation.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<NotifikationContext>(options =>
-                    options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=postgres")
-                    );
+                    options.UseNpgsql(Configuration.GetConnectionString(typeof(NotifikationContext).Name),
+                     h => h.MigrationsHistoryTable("MigrationsHitory", "Notifikation")));
 
             ConfigureApi(services);
         }
@@ -107,7 +108,7 @@ namespace Notifikation.Api
                     if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
                     {
                         context.Database.EnsureCreated();
-                        if (context.Database.GetPendingMigrations().Any())
+                        if (!context.Database.GetPendingMigrations().Any())
                         {
                             context.Database.Migrate();
                         }
