@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Notifikation.Api.Profiles;
 using Xunit;
 
 namespace Notifikation.Test.AutomapperTests
@@ -11,8 +12,7 @@ namespace Notifikation.Test.AutomapperTests
             // Arrange
             var config = new MapperConfiguration(configuration =>
             {
-
-              //  configuration.AddMaps(typeof(AssemblyInfo).GetTypeInfo().Assembly);
+              configuration.AddMaps(typeof(MappingProfile).Assembly);
             });
 
             // Assert

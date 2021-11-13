@@ -1,7 +1,6 @@
 ﻿using eDocument.Infrastructure.Repositories;
 using MediatR;
 using Notifikation.Infrastructure.Command;
-using Notifikation.Infrastructure.Context;
 using Notifikation.Infrastructure.DTO;
 using System.Threading;
 using System.Threading.Tasks;
