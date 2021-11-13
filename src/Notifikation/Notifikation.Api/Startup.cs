@@ -67,8 +67,8 @@ namespace Notifikation.Api
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
-            services.AddTransient<IReadRepository, ReadRepository>();
-            services.AddTransient<IWriteIRepository, WriteIRepository>();
+            services.AddTransient<IReadRepository, Notifikation.Infrastructure.Repositories.ReadRepository>();
+            services.AddTransient<IWriteIRepository, Notifikation.Infrastructure.Repositories.WriteIRepository>();
             services.RegisterSwaggerGenServices();
 
             //services.AddScoped<IRequestHandler<CreateNotifikationCommand, NotifikatItemDTO>, CreateNotifikationCommandHandler>();
