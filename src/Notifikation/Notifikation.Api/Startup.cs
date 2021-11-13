@@ -62,7 +62,7 @@ namespace Notifikation.Api
         }
         private void ConfigureApi(IServiceCollection services)
         {
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.RegisterServices(typeof(Startup).GetTypeInfo().Assembly, new Type[] { typeof(Api.Profiles.MappingProfile), typeof(Infrastructure.Profiles.NotifikationProfile) });
             services.AddOptions();
             services.RegisterServices(typeof(Startup).GetTypeInfo().Assembly, new Type[] { typeof(Api.Profiles.MappingProfile), typeof(Infrastructure.Profiles.NotifikationProfile) });
             services.AddControllers()
@@ -71,8 +71,6 @@ namespace Notifikation.Api
             services.AddTransient<IReadRepository, Notifikation.Infrastructure.Repositories.ReadRepository>();
             services.AddTransient<IWriteIRepository, Notifikation.Infrastructure.Repositories.WriteIRepository>();
             services.RegisterSwaggerGenServices();
-
-            //services.AddScoped<IRequestHandler<CreateNotifikationCommand, NotifikatItemDTO>, CreateNotifikationCommandHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
