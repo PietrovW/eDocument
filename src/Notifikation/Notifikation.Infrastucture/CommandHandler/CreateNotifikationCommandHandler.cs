@@ -34,7 +34,7 @@ namespace Notifikation.Infrastructure.CommandHandler
             }
             else
             {
-                throw new ExistsNotifikatInfrastructureException($"Message: {notifikationEntity.Message} User : {notifikationEntity.User}");
+                throw new NoExistsNotifikatInfrastructureException($"Message: {notifikationEntity.Message} User : {notifikationEntity.User}");
             }
            var notifikatItemDTO = _mapper.Map<NotifikatItemDTO>(notifikationEntity);
             return notifikatItemDTO;

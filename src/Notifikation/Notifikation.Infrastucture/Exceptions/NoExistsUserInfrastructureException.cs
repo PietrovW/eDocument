@@ -2,9 +2,9 @@
 
 namespace Notifikation.Infrastructure.Exceptions
 {
-    public class ExistsNotifikatInfrastructureException: InfrastructureException
+    public class NoExistsUserInfrastructureException : InfrastructureException
     {
-        public ExistsNotifikatInfrastructureException(string message)
+        public NoExistsUserInfrastructureException(string message)
             :base($"Servis Notifikation : {message}")
         {
 

@@ -51,12 +51,13 @@ namespace Notifikation.Infrastucture.Test.CommandHandlerTests
             var handler = new CreateNotifikationCommandHandler(writeIRepositoryMoq.Object, readRepositoryMoq.Object, mapper);
 
             //Act
-            Action act = () => handler.Handle(command, new System.Threading.CancellationToken());
-            // var act = handler.Handle(command, new System.Threading.CancellationToken());
+            var act = handler.Handle(command, new System.Threading.CancellationToken());
 
-            act.Should().Throw<ExistsNotifikatInfrastructureException>();
             //Asert
-          //  act.Result.Should().BeEquivalentTo(typeof(ExistsNotifikatInfrastructureException));//<ExistsNotifikatInfrastructureException>();//.BeSameAs(typeof(ExistsNotifikatInfrastructureException));
+
+          //  handler.Handle(command, new System.Threading.CancellationToken()).Should().Subject.Should().r.Throw<ExistsNotifikatInfrastructureException>();
+
+            act.Result.Should().Be(typeof( NoExistsNotifikatInfrastructureException));//<ExistsNotifikatInfrastructureException>();//.BeSameAs(typeof(ExistsNotifikatInfrastructureException));
         }
     }
 }
