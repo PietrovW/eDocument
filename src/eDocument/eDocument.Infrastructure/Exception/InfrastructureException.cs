@@ -4,7 +4,7 @@ namespace eDocument.Infrastructure.Extensions
 {
     public class InfrastructureException : Exception
     {
-        public InfrastructureException()
+        private InfrastructureException()
         { }
         public InfrastructureException(string message)
             : base(message)

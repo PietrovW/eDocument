@@ -5,6 +5,7 @@ using MediatR;
 using Notifikation.Infrastructure.Command;
 using Notifikation.Infrastructure.DTO;
 using Notifikation.Infrastructure.Entity;
+using Notifikation.Infrastructure.Exceptions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,19 +25,28 @@ namespace Notifikation.Infrastructure.CommandHandler
 
         public async Task<NotifikatItemDTO> Handle(CreateNotifikationCommand request, CancellationToken cancellationToken)
         {
-           var notifikationEntity = _mapper.Map<NotifikationEntity>(request);
+            var notifikationEntity = _mapper.Map<NotifikationEntity>(request);
 
-            ISpecification<NotifikationEntity> samsungExpSpec =    new ExpressionSpecification<NotifikationEntity>(o => o.BrandName == BrandName.Samsung);
-            if (_readRepository.Contains<NotifikationEntity>(SpecificationEvaluator))
+            if (!_readRepository.Contains(new ContainsSpecification(notifikationEntity)))
             {
-
+                _notifikationWrite.Add<NotifikationEntity>(notifikationEntity);
+                await _notifikationWrite.SaveChangesAsync();
             }
-
-
-
-            return request.Notifikation;
+            else
+            {
+                throw new ExistsNotifikatInfrastructureException($"Message: {notifikationEntity.Message} User : {notifikationEntity.User}");
+            }
+           var notifikatItemDTO = _mapper.Map<NotifikatItemDTO>(notifikationEntity);
+            return notifikatItemDTO;
         }
 
-       
+    }
+    public class ContainsSpecification : BaseSpecification<NotifikationEntity>
+    {
+        public ContainsSpecification(NotifikationEntity notifikationEntity) :
+            base(notifikationEntity => notifikationEntity.Message.Contains(notifikationEntity.Message)
+                && notifikationEntity.User == notifikationEntity.User)
+        {
+        }
     }
 }
