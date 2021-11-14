@@ -18,16 +18,12 @@ namespace Notifikation.Api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(typeof(NotifikatItemDTO), (int)HttpStatusCode.Created)]
-        public async Task<ActionResult> Post([FromBody] NotifikationModel notifikationModel)
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(CreateNotifikationCommand), (int)HttpStatusCode.Created)]
+        public async Task<ActionResult> Post([FromBody] CreateNotifikationCommand notifikationModel)
         {
             
-            return Created(string.Empty, await mediator.Send(new CreateNotifikationCommand
-            {
-                Notifikation = mapper.Map<NotifikatItemDTO>(notifikationModel)
-            }));
+            return Created(string.Empty, await mediator.Send(notifikationModel));
         }
         ////[HttpPut("{id}")]
         ////public async Task<IActionResult> PutTodoItem(long id, NotifikatItemDTO todoItem)

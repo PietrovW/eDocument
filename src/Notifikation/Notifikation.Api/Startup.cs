@@ -18,6 +18,7 @@ using System.Linq;
 namespace Notifikation.Api
 {
     using eDocument.Infrastructure.Repositories;
+    using FluentValidation.AspNetCore;
     using MediatR.Extensions.FluentValidation.AspNetCore;
     using Newtonsoft.Json;
     using Notifikation.Infrastructure;
@@ -67,9 +68,9 @@ namespace Notifikation.Api
 
             services.AddOptions();
             services.AddControllers()
-
+                
                 .AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore).AddFluentValidation();
             services.AddTransient<IReadRepository, Notifikation.Infrastructure.Repositories.ReadRepository>();
             services.AddTransient<IWriteIRepository, Notifikation.Infrastructure.Repositories.WriteIRepository>();
             services.RegisterSwaggerGenServices();
