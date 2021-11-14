@@ -12,9 +12,6 @@ namespace OCR.Api
 {
     using eDocument.Infrastructure.Extensions;
     using eDocument.Infrastructure.Repositories;
-    using OCR.Infrastructure.Command;
-    using OCR.Infrastructure.CommandHandler;
-    using OCR.Infrastructure.DTO;
 
     public class Startup
     {
@@ -33,7 +30,6 @@ namespace OCR.Api
             services.AddScoped<IWriteIRepository, WriteIRepository>();
             services.RegisterSwaggerGenServices();
             services.AddSingleton(new TesseractEngine(@"./tessdata", "eng", EngineMode.Default));
-            services.AddScoped<IRequestHandler<CreateDocumentCommand, DocumentDTO>, CreateDocumentCommandHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

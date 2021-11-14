@@ -1,10 +1,6 @@
-﻿using eDocument.Infrastructure.Seed;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace eDocument.Infrastructure.Extensions
 {
