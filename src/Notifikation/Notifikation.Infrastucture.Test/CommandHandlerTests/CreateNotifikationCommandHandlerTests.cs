@@ -10,7 +10,6 @@ using Notifikation.Infrastructure.Entity;
 using Notifikation.Infrastructure.Exceptions;
 using Notifikation.Infrastructure.Profiles;
 using NUnit.Framework;
-using System;
 using System.Threading.Tasks;
 
 namespace Notifikation.Infrastucture.Test.CommandHandlerTests
@@ -57,7 +56,7 @@ namespace Notifikation.Infrastucture.Test.CommandHandlerTests
 
           //  handler.Handle(command, new System.Threading.CancellationToken()).Should().Subject.Should().r.Throw<ExistsNotifikatInfrastructureException>();
 
-            act.Result.Should().Be(typeof( NoExistsNotifikatInfrastructureException));//<ExistsNotifikatInfrastructureException>();//.BeSameAs(typeof(ExistsNotifikatInfrastructureException));
+            act.Result.Should().BeOfType<NoExistsNotifikatInfrastructureException>();//<ExistsNotifikatInfrastructureException>();//.BeSameAs(typeof(ExistsNotifikatInfrastructureException));
         }
     }
 }

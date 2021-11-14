@@ -22,6 +22,7 @@ namespace eDocument.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOcelot();
+            services.AddHttpContextAccessor();
             services.AddControllers();
             services.RegisterSwaggerGenServices();
         }

@@ -18,7 +18,9 @@ using System.Linq;
 namespace Notifikation.Api
 {
     using eDocument.Infrastructure.Repositories;
+    using MediatR.Extensions.FluentValidation.AspNetCore;
     using Newtonsoft.Json;
+    using Notifikation.Infrastructure;
 
     public class Startup
     {
@@ -62,18 +64,20 @@ namespace Notifikation.Api
         }
         private void ConfigureApi(IServiceCollection services)
         {
-            services.RegisterServices(typeof(Startup).GetTypeInfo().Assembly, new Type[] { typeof(Api.Profiles.MappingProfile), typeof(Infrastructure.Profiles.NotifikationProfile) });
+
             services.AddOptions();
-            
             services.AddControllers()
+
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddTransient<IReadRepository, Notifikation.Infrastructure.Repositories.ReadRepository>();
             services.AddTransient<IWriteIRepository, Notifikation.Infrastructure.Repositories.WriteIRepository>();
             services.RegisterSwaggerGenServices();
+            services.RegisterServices(new Assembly[] { typeof(Api.Profiles.MappingProfile).GetTypeInfo().Assembly, typeof(Infrastructure.Profiles.NotifikationProfile).GetTypeInfo().Assembly });
+            //services.AddFluentValidation(new Assembly[] { typeof(Api.Profiles.MappingProfile).GetTypeInfo().Assembly, typeof(Infrastructure.Profiles.NotifikationProfile).GetTypeInfo().Assembly });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             UpdateDatabase(app);
             if (env.IsDevelopment())
