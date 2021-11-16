@@ -31,6 +31,14 @@ namespace Notifikation.Infrastructure.Profiles
             CreateMap<UserEntity, UserDTO>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+
+            CreateMap<CreateUserCommand, UserEntity>()
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.User.Name))
+                .ForMember(dest => dest.xmin, opt => opt.Ignore())
+                .ForMember(dest => dest.DateCreated, opt => opt.Ignore())
+                .ForMember(dest => dest.DateUpdate, opt => opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }
