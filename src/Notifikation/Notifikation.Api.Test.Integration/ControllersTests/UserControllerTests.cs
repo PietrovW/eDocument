@@ -13,7 +13,7 @@ namespace Notifikation.Api.Test.Integration
         }
 
         [Theory]
-        [InlineData("/User")]
+        [InlineData("/api/User")]
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
