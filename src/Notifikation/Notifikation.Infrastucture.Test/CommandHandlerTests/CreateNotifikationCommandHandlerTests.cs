@@ -10,6 +10,7 @@ using Notifikation.Infrastructure.Entity;
 using Notifikation.Infrastructure.Exceptions;
 using Notifikation.Infrastructure.Profiles;
 using NUnit.Framework;
+using System;
 using System.Threading.Tasks;
 
 namespace Notifikation.Infrastucture.Test.CommandHandlerTests
@@ -36,7 +37,7 @@ namespace Notifikation.Infrastucture.Test.CommandHandlerTests
         }
 
         [Test]
-        public void CreateNotifikationCommand_CustomerDataReturnExistsNotifikatInfrastructureException()
+        public async Task CreateNotifikationCommand_CustomerDataReturnExistsNotifikatInfrastructureException()
         {
             //Arange
             var writeIRepositoryMoq = new Mock<IWriteIRepository>();
@@ -50,13 +51,10 @@ namespace Notifikation.Infrastucture.Test.CommandHandlerTests
             var handler = new CreateNotifikationCommandHandler(writeIRepositoryMoq.Object, readRepositoryMoq.Object, mapper);
 
             //Act
-            var act = handler.Handle(command, new System.Threading.CancellationToken());
+            Func<Task<NotifikatItemDTO>> act =()=>  handler.Handle(command, new System.Threading.CancellationToken());
 
             //Asert
-
-          //  handler.Handle(command, new System.Threading.CancellationToken()).Should().Subject.Should().r.Throw<ExistsNotifikatInfrastructureException>();
-
-            act.Result.Should().BeOfType<NoExistsNotifikatInfrastructureException>();//<ExistsNotifikatInfrastructureException>();//.BeSameAs(typeof(ExistsNotifikatInfrastructureException));
+            await act.Should().ThrowAsync<NoExistsNotifikatInfrastructureException>();
         }
     }
 }
