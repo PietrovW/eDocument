@@ -11,7 +11,8 @@
 Sample microservice application
 
 ## Technologies
-
+  FluentValidation
+  MediatR
 
 
 
