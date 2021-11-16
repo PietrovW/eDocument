@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Notifikation.Test.EndToEnd.ControllersTest
 {
