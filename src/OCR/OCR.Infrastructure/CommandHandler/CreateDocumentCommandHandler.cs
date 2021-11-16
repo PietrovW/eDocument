@@ -19,7 +19,7 @@ namespace OCR.Infrastructure.CommandHandler
         {
            await Task.Run(() =>
            {
-               DocumentDTO documentDTO = new DocumentDTO();
+               var documentDTO = new DocumentDTO();
                documentDTO.FileName = documentDTO.FileName;
                documentDTO.UserId = request.UserId;
                documentDTO.Content = _ocrService.GetText(request.Bytes);
