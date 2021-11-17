@@ -10,6 +10,7 @@ namespace Notifikation.Api.Test.Integration
     {
         public UserControllerTests(WebApplicationFactory<Api.Startup> factory):base(factory)
         {
+           
         }
 
         [Theory]

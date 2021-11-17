@@ -48,7 +48,7 @@ namespace Notifikation.Api
             ConfigureApi(services);
         }
 
-        public void ConfigureTestServices(IServiceCollection services)
+        public void ConfigureStagingServices(IServiceCollection services)
         {
             services.AddDbContext<NotifikationContext>(options =>
                     options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
