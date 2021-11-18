@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Http;
+using Microsoft.Extensions.Hosting;
 
 namespace Notifikation.Test.EndToEnd.ControllersTest
 {
@@ -12,7 +13,7 @@ namespace Notifikation.Test.EndToEnd.ControllersTest
         protected BaseControllerTests()
         {
            var webHost  =  new WebHostBuilder()
-                          .UseEnvironment("Test")
+                          .UseEnvironment(Environments.Staging)
                           .UseStartup<Api.Startup>();
             Server = new TestServer(webHost);
             Client = Server.CreateClient();

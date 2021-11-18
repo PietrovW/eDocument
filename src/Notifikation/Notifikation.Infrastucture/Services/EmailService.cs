@@ -15,6 +15,9 @@ namespace Notifikation.Infrastructure.Services
 
         public async Task<ErrorResponseModel> SendAsync(string sender, string subject, string body)
         {
+
+          await _client.SendMailAsync(sender, "recipient", subject, body);
+
             throw new NotImplementedException();
         }
 
