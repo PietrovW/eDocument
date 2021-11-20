@@ -8,7 +8,7 @@ namespace OCR.Api.Test.EndToEnd.ControllersTest
     public class ClientTests
     {
         protected readonly TestServer Server;
-        protected readonly HttpClient Client;
+        public HttpClient Client { get; }
 
         public ClientTests()
         {

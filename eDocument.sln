@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifikation.Domain", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifikation.Worker", "src\Notifikation\Notifikation.Worker\Notifikation.Worker.csproj", "{28BACC67-6B25-4E13-A142-044C8AA442AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifikation.Test", "src\Notifikation\Notifikation.Test\Notifikation.Test.csproj", "{5F07B2CA-686A-4CFE-A16F-F9B8875D4B56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifikation.Api.Test", "src\Notifikation\Notifikation.Test\Notifikation.Api.Test.csproj", "{5F07B2CA-686A-4CFE-A16F-F9B8875D4B56}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifikation.Test.Integration", "src\Notifikation\Notifikation.Api.Test.Integration\Notifikation.Test.Integration.csproj", "{464B3885-EE9B-43A1-B356-3EB4BA3A71F1}"
 EndProject
@@ -59,9 +59,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifikation.Infrastucture.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OCR.Infrastucture.Test", "src\OCR\OCR.Infrastucture.Test\OCR.Infrastucture.Test.csproj", "{6695C15F-4F6A-4DF6-998F-E5FEAB6AE685}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCR.Api.Test.Acceptance", "src\OCR\OCR.Api.Test.Acceptance\OCR.Api.Test.Acceptance.csproj", "{143289EC-2892-47DD-876D-ABC45BC476A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OCR.Api.Test.Acceptance", "src\OCR\OCR.Api.Test.Acceptance\OCR.Api.Test.Acceptance.csproj", "{143289EC-2892-47DD-876D-ABC45BC476A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCR.Api.Test.EndToEnd", "src\OCR\OCR.Api.Test.EndToEnd\OCR.Api.Test.EndToEnd.csproj", "{8857AE27-899E-4971-A133-847A02774B3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OCR.Api.Test.EndToEnd", "src\OCR\OCR.Api.Test.EndToEnd\OCR.Api.Test.EndToEnd.csproj", "{8857AE27-899E-4971-A133-847A02774B3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

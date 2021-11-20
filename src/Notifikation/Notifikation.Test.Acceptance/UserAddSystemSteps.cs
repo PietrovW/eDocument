@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -22,7 +23,7 @@ namespace Notifikation.Test.Acceptance
         public void WhenINavigationToUserControler()
         {
             var webHost = new WebHostBuilder()
-                          .UseEnvironment("Test")
+                          .UseEnvironment(Environments.Staging)
                           .UseStartup<Api.Startup>();
             Server = new TestServer(webHost);
             Client = Server.CreateClient();

@@ -20,8 +20,6 @@ namespace Notifikation.Test.Integration
             });
         }
 
-      
-
 
         protected virtual void ConfigureWebHost(IWebHostBuilder builder)
         {

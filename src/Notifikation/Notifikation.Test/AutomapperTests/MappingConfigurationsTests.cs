@@ -2,7 +2,7 @@
 using Notifikation.Api.Profiles;
 using Xunit;
 
-namespace Notifikation.Test.AutomapperTests
+namespace Notifikation.Api.Test.AutomapperTests
 {
     public class MappingConfigurationsTests
     {

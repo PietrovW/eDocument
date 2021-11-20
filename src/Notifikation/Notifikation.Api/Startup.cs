@@ -68,17 +68,15 @@ namespace Notifikation.Api
 
             services.AddOptions();
             services.AddControllers()
-                
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore).AddFluentValidation();
             services.AddTransient<IReadRepository, Notifikation.Infrastructure.Repositories.ReadRepository>();
             services.AddTransient<IWriteIRepository, Notifikation.Infrastructure.Repositories.WriteIRepository>();
             services.RegisterSwaggerGenServices();
             services.RegisterServices(new Assembly[] { typeof(Api.Profiles.MappingProfile).GetTypeInfo().Assembly, typeof(Infrastructure.Profiles.NotifikationProfile).GetTypeInfo().Assembly });
-            //services.AddFluentValidation(new Assembly[] { typeof(Api.Profiles.MappingProfile).GetTypeInfo().Assembly, typeof(Infrastructure.Profiles.NotifikationProfile).GetTypeInfo().Assembly });
         }
 
-            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             UpdateDatabase(app);
             if (env.IsDevelopment())

@@ -2,11 +2,15 @@
 using Notifikation.Api.Validators;
 using Xunit;
 
-namespace Notifikation.Test.Validators
+namespace Notifikation.Api.Test.Validators
 {
     public class NotifikationModelValidatorTest
     {
-        private readonly NotifikationModelValidator _validator = new NotifikationModelValidator();
+        private readonly UserModelValidator _validator;
+        public NotifikationModelValidatorTest()
+        {
+            _validator = new UserModelValidator();
+        }
 
         [Fact]
         public void GivenAnInvalidNotifikationModelValue_ShouldHaveValidationError() => _validator.ShouldHaveValidationErrorFor(model => model.Message, string.Empty);
