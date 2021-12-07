@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  edocument.api:
+    image: ${DOCKER_REGISTRY-}edocumentapi
+    build:
+      context: .
+      dockerfile: src/eDocument/eDocument.Api/Dockerfile
+
+  ocr.api:
+    image: ${DOCKER_REGISTRY-}ocrapi
+    build:
+      context: .
+      dockerfile: src/OCR/OCR.Api/Dockerfile
+
+
+  taskmanager.api:
+    image: ${DOCKER_REGISTRY-}taskmanagerapi
+    build:
+      context: .
+      dockerfile: src/TaskManager/TaskManager.Api/Dockerfile
+
