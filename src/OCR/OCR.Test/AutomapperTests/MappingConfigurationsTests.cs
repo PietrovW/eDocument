@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Xunit;
+using OCR.Api.Profiles;
 
 namespace OCR.Test.AutomapperTests
 {

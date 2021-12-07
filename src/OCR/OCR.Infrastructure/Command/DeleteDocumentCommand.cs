@@ -4,6 +4,6 @@ namespace OCR.Infrastructure.Command
 {
     public class DeleteDocumentCommand : IRequest
     {
-        public long UserId { get; set; }
+        public long Id { get; set; }
     }
 }

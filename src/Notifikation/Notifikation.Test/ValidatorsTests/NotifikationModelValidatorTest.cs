@@ -13,6 +13,7 @@ namespace Notifikation.Api.Test.Validators
         }
 
         [Fact]
-        public void GivenAnInvalidNotifikationModelValue_ShouldHaveValidationError() => _validator.ShouldHaveValidationErrorFor(model => model.Message, string.Empty);
+        [System.Obsolete]
+        public void GivenAnInvalidNotifikationModelValue_ShouldHaveValidationError() => _validator.ShouldHaveValidationErrorFor(model => model.Email, string.Empty);
     }
 }

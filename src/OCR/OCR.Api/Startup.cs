@@ -1,9 +1,6 @@
-using System;
 using System.Reflection;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tesseract;
@@ -18,13 +15,12 @@ namespace OCR.Api
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureApi(services);
-            
         }
 
         private void ConfigureApi(IServiceCollection services)
         {
             services.AddOptions();
-            services.RegisterServices(typeof(Startup).GetTypeInfo().Assembly, new Type[] { typeof(Api.Profiles.OCRProfile), typeof(Infrastructure.Profiles.OCRProfile) });
+            services.RegisterServices(new Assembly[] { typeof(Api.Profiles.OCRProfile).Assembly, typeof(Infrastructure.Profiles.OCRProfile).Assembly });
             services.AddControllers();
             services.AddScoped<IReadRepository, ReadRepository>();
             services.AddScoped<IWriteIRepository, WriteIRepository>();
@@ -43,10 +39,7 @@ namespace OCR.Api
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }
