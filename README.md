@@ -16,9 +16,8 @@ Sample microservice application
 * [MediatR](https://github.com/jbogard/MediatR)
 
 
-
-
-
-
-
 ## Setup
+Launch Apps, using the command
+```
+    docker-compose up
+```
